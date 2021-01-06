@@ -8,7 +8,7 @@ export function activate(context: vscode.ExtensionContext) {
   // Current Issues `window.registerTreeDataProvider`
   const nodeDependenciesProvider = new DepNodeProvider(vscode.workspace.rootPath);
   vscode.window.registerTreeDataProvider('nodeDependencies', nodeDependenciesProvider);
-  vscode.commands.registerCommand('nodeDependencies.refreshEntry', () => nodeDependenciesProvider.refresh());
+  vscode.commands.registerCommand('nodeDependencies.refresh', () => nodeDependenciesProvider.refresh());
 
   vscode.commands.registerCommand('nodeDependencies.addEntry', () =>
     vscode.window.showInformationMessage(`Successfully called add entry.`)

@@ -4,7 +4,9 @@
 
 	// List of extensions which should be recommended for users of this workspace.
 	"recommendations": [
+		// Linting
 		"dbaeumer.vscode-eslint",
+		// Automatically open the markdown preview when selecting a YouTrack Issue. 
 		"hnw.vscode-auto-open-markdown-preview"
 	]
 }
