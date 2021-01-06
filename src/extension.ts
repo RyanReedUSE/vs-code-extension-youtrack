@@ -6,7 +6,7 @@ import { currentIssuesProvider, Issue } from './currentIssues';
 
 export function activate(context: vscode.ExtensionContext) {
   // Current Issues `window.registerTreeDataProvider`
-  const _currentIssuesProvider = new currentIssuesProvider(vscode.workspace.rootPath);
+  const _currentIssuesProvider = new currentIssuesProvider();
   vscode.window.registerTreeDataProvider('currentIssues', _currentIssuesProvider);
   vscode.commands.registerCommand('currentIssues.refresh', () => _currentIssuesProvider.refresh());
 
