@@ -2,7 +2,7 @@
 
 import * as vscode from 'vscode';
 
-import { currentIssuesProvider, Dependency } from './currentIssues';
+import { currentIssuesProvider, Issue } from './currentIssues';
 
 export function activate(context: vscode.ExtensionContext) {
   // Current Issues `window.registerTreeDataProvider`
@@ -13,7 +13,7 @@ export function activate(context: vscode.ExtensionContext) {
   vscode.commands.registerCommand('currentIssues.addIssue', () =>
     vscode.window.showInformationMessage(`Successfully called add issue.`)
   );
-  vscode.commands.registerCommand('currentIssues.view', (node: Dependency) =>
+  vscode.commands.registerCommand('currentIssues.view', (node: Issue) =>
     vscode.window.showInformationMessage(`Successfully called view issue on ${node.label}.`)
   );
 

@@ -2,11 +2,11 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 
-export class currentIssuesProvider implements vscode.TreeDataProvider<Dependency> {
-  private _onDidChangeTreeData: vscode.EventEmitter<Dependency | undefined | void> = new vscode.EventEmitter<
-    Dependency | undefined | void
+export class currentIssuesProvider implements vscode.TreeDataProvider<Issue> {
+  private _onDidChangeTreeData: vscode.EventEmitter<Issue | undefined | void> = new vscode.EventEmitter<
+    Issue | undefined | void
   >();
-  readonly onDidChangeTreeData: vscode.Event<Dependency | undefined | void> = this._onDidChangeTreeData.event;
+  readonly onDidChangeTreeData: vscode.Event<Issue | undefined | void> = this._onDidChangeTreeData.event;
 
   constructor(private workspaceRoot: string) {}
 
@@ -14,13 +14,13 @@ export class currentIssuesProvider implements vscode.TreeDataProvider<Dependency
     this._onDidChangeTreeData.fire();
   }
 
-  getTreeItem(element: Dependency): vscode.TreeItem {
+  getTreeItem(element: Issue): vscode.TreeItem {
     return element;
   }
 
-  getChildren(element?: Dependency): Thenable<Dependency[]> {
+  getChildren(element?: Issue): Thenable<Issue[]> {
     if (!this.workspaceRoot) {
-      vscode.window.showInformationMessage('No dependency in empty workspace');
+      vscode.window.showInformationMessage('No issue in empty workspace');
       return Promise.resolve([]);
     }
 
@@ -42,15 +42,15 @@ export class currentIssuesProvider implements vscode.TreeDataProvider<Dependency
   /**
    * Given the path to package.json, read all its dependencies and devDependencies.
    */
-  private getDepsInPackageJson(packageJsonPath: string): Dependency[] {
+  private getDepsInPackageJson(packageJsonPath: string): Issue[] {
     if (this.pathExists(packageJsonPath)) {
       const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
 
-      const toDep = (moduleName: string, version: string): Dependency => {
+      const toDep = (moduleName: string, version: string): Issue => {
         if (this.pathExists(path.join(this.workspaceRoot, 'node_modules', moduleName))) {
-          return new Dependency(moduleName, version, vscode.TreeItemCollapsibleState.Collapsed);
+          return new Issue(moduleName, version, vscode.TreeItemCollapsibleState.Collapsed);
         } else {
-          return new Dependency(moduleName, version, vscode.TreeItemCollapsibleState.None, {
+          return new Issue(moduleName, version, vscode.TreeItemCollapsibleState.None, {
             command: 'extension.openPackageOnNpm',
             title: '',
             arguments: [moduleName],
@@ -81,7 +81,7 @@ export class currentIssuesProvider implements vscode.TreeDataProvider<Dependency
   }
 }
 
-export class Dependency extends vscode.TreeItem {
+export class Issue extends vscode.TreeItem {
   constructor(
     public readonly label: string,
     private readonly version: string,
@@ -99,5 +99,5 @@ export class Dependency extends vscode.TreeItem {
     dark: path.join(__filename, '..', '..', 'resources', 'dark', 'go-to-file.svg'),
   };
 
-  contextValue = 'dependency';
+  contextValue = 'issue';
 }

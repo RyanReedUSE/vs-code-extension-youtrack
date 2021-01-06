@@ -95,7 +95,7 @@ Examples:
        "view/item/context": [
            {
                 "command": "nodeDependencies.deleteEntry",
-                "when": "view == nodeDependencies && viewItem == dependency"
+                "when": "view == nodeDependencies && viewItem == issue"
             }
         ]
     }
@@ -118,7 +118,7 @@ If you would like to perform some UI operations on the view programatically, you
 
 ```typescript
 vscode.window.createTreeView('ftpExplorer', {
-	treeDataProvider: new FtpTreeDataProvider(),
+  treeDataProvider: new FtpTreeDataProvider(),
 });
 ```
 

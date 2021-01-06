@@ -88,7 +88,7 @@
       "view/item/context": [
         {
           "command": "currentIssues.view",
-          "when": "view == currentIssues && viewItem == dependency",
+          "when": "view == currentIssues && viewItem == issue",
           "group": "inline"
         }
       ]
