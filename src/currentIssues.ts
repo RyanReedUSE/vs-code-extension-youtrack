@@ -19,6 +19,7 @@ export class currentIssuesProvider implements vscode.TreeDataProvider<Issue> {
   }
 
   getChildren(element?: Issue): Thenable<Issue[]> {
+    // TODO: Do not limit the user from being able to see issues, even in an empty workspace. Remove the following.
     if (!this.workspaceRoot) {
       vscode.window.showInformationMessage('No issue in empty workspace');
       return Promise.resolve([]);

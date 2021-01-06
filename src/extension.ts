@@ -10,9 +10,14 @@ export function activate(context: vscode.ExtensionContext) {
   vscode.window.registerTreeDataProvider('currentIssues', _currentIssuesProvider);
   vscode.commands.registerCommand('currentIssues.refresh', () => _currentIssuesProvider.refresh());
 
-  vscode.commands.registerCommand('currentIssues.addIssue', () =>
-    vscode.window.showInformationMessage(`Successfully called add issue.`)
-  );
+  vscode.commands.registerCommand('currentIssues.addIssue', () => {
+    vscode.commands.executeCommand(
+      'vscode.open',
+      vscode.Uri.parse(`${vscode.workspace.getConfiguration('youtrack').get('host')}newIssue`)
+    );
+    vscode.window.showInformationMessage(`Successfully called add issue.`);
+  });
+
   vscode.commands.registerCommand('currentIssues.view', (node: Issue) =>
     vscode.window.showInformationMessage(`Successfully called view issue on ${node.label}.`)
   );
