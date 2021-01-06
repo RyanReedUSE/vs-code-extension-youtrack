@@ -2,19 +2,19 @@
 
 import * as vscode from 'vscode';
 
-import { DepNodeProvider, Dependency } from './nodeDependencies';
+import { currentIssuesProvider, Dependency } from './currentIssues';
 
 export function activate(context: vscode.ExtensionContext) {
   // Current Issues `window.registerTreeDataProvider`
-  const nodeDependenciesProvider = new DepNodeProvider(vscode.workspace.rootPath);
-  vscode.window.registerTreeDataProvider('nodeDependencies', nodeDependenciesProvider);
-  vscode.commands.registerCommand('nodeDependencies.refresh', () => nodeDependenciesProvider.refresh());
+  const _currentIssuesProvider = new currentIssuesProvider(vscode.workspace.rootPath);
+  vscode.window.registerTreeDataProvider('currentIssues', _currentIssuesProvider);
+  vscode.commands.registerCommand('currentIssues.refresh', () => _currentIssuesProvider.refresh());
 
-  vscode.commands.registerCommand('nodeDependencies.addEntry', () =>
-    vscode.window.showInformationMessage(`Successfully called add entry.`)
+  vscode.commands.registerCommand('currentIssues.addIssue', () =>
+    vscode.window.showInformationMessage(`Successfully called add issue.`)
   );
-  vscode.commands.registerCommand('nodeDependencies.editEntry', (node: Dependency) =>
-    vscode.window.showInformationMessage(`Successfully called edit entry on ${node.label}.`)
+  vscode.commands.registerCommand('currentIssues.view', (node: Dependency) =>
+    vscode.window.showInformationMessage(`Successfully called view issue on ${node.label}.`)
   );
 
   /* 
