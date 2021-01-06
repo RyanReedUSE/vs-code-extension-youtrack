@@ -18,55 +18,9 @@ export class currentIssuesProvider implements vscode.TreeDataProvider<Issue> {
   }
 
   async getChildren(element?: Issue): Promise<Issue[]> {
-    // TODO: Do not limit the user from being able to see issues, even in an empty workspace. Remove the following.
-    // if (!this.workspaceRoot) {
-    //   vscode.window.showInformationMessage('No issue in empty workspace');
-    //   return Promise.resolve([]);
-    // }
-
-    // Fetch Current Issues from YouTrack
-    // const issues = ;
-
-    // if (issues) {
-    console.log(await this.getCurrentIssues());
-
+    // Fetch current YouTrack issues
     return await this.getCurrentIssues();
-    // } else {
-    //   vscode.window.showInformationMessage('User has no current YouTrack issues.');
-    //   return Promise.resolve([]);
-    // }
   }
-
-  /**
-   * Given the path to package.json, read all its dependencies and devDependencies.
-   */
-  //   private getDepsInPackageJson(packageJsonPath: string): Issue[] {
-  //     if (this.pathExists(packageJsonPath)) {
-  //       const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
-
-  //       const toDep = (moduleName: string, version: string): Issue => {
-  //         if (this.pathExists(path.join(this.workspaceRoot, 'node_modules', moduleName))) {
-  //           return new Issue(moduleName, version, vscode.TreeItemCollapsibleState.Collapsed);
-  //         } else {
-  //           return new Issue(moduleName, version, vscode.TreeItemCollapsibleState.None, {
-  //             command: 'extension.openPackageOnNpm',
-  //             title: '',
-  //             arguments: [moduleName],
-  //           });
-  //         }
-  //       };
-
-  //       const deps = packageJson.dependencies
-  //         ? Object.keys(packageJson.dependencies).map((dep) => toDep(dep, packageJson.dependencies[dep]))
-  //         : [];
-  //       const devDeps = packageJson.devDependencies
-  //         ? Object.keys(packageJson.devDependencies).map((dep) => toDep(dep, packageJson.devDependencies[dep]))
-  //         : [];
-  //       return deps.concat(devDeps);
-  //     } else {
-  //       return [];
-  //     }
-  //   }
 
   /**
    * Given the YouTrack Extension Settings, returns an array of current issues.
