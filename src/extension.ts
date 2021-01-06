@@ -20,7 +20,7 @@ export function activate(context: vscode.ExtensionContext) {
   /* 
 	TODO: Rename all of the functions from nodeDependencies to the current issues list
 	TODO: Build the first list of issues by name that match the current filter. 
-	TODO: Add current you track card to the bottom ribbon. 
+	TODO: Add current you track card to the bottom ribbon if the branch contains the Id. 
 	*/
 
   vscode.commands.registerCommand('currentIssues.configureSettings', () =>
