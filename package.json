@@ -108,7 +108,6 @@
           "command": "currentIssues.unpin",
           "when": "view == currentIssues",
           "group": "navigation"
-        }
         },
         {
           "command": "currentIssues.configureSettings",
