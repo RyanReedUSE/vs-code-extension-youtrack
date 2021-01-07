@@ -83,9 +83,9 @@ export class Issue extends vscode.TreeItem {
   constructor(
     public readonly label: string,
     public readonly id: string,
-    private readonly summary: string,
-    private readonly createdBy: string,
-    private readonly createdOn: string,
+    public readonly summary: string,
+    public readonly createdBy: string,
+    public readonly createdOn: string,
     public readonly collapsibleState: vscode.TreeItemCollapsibleState,
     public readonly command?: vscode.Command
   ) {

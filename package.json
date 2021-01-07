@@ -59,16 +59,36 @@
         }
       },
       {
+        "command": "currentIssues.pin",
+        "title": "Pin Issue",
+        "icon": {
+          "light": "resources/light/pinned.svg",
+          "dark": "resources/dark/pinned.svg"
+        }
+      },
+      {
+        "command": "currentIssues.unpin",
+        "title": "Unpin Issue",
+        "icon": {
+          "light": "resources/light/pinned-dirty.svg",
+          "dark": "resources/dark/pinned-dirty.svg"
+        }
+      },
+      {
         "command": "currentIssues.addIssue",
         "title": "Add Issue",
         "icon": {
-          "light": "resources/light/document.svg",
-          "dark": "resources/dark/document.svg"
+          "light": "resources/light/add.svg",
+          "dark": "resources/dark/add.svg"
         }
       },
       {
         "command": "currentIssues.configureSettings",
-        "title": "Configure Settings"
+        "title": "Configure Settings",
+        "icon": {
+          "light": "resources/light/gear.svg",
+          "dark": "resources/dark/gear.svg"
+        }
       }
     ],
     "menus": {
@@ -83,11 +103,27 @@
           "command": "currentIssues.addIssue",
           "when": "view == currentIssues",
           "group": "navigation"
+        },
+        {
+          "command": "currentIssues.unpin",
+          "when": "view == currentIssues",
+          "group": "navigation"
+        }
+        },
+        {
+          "command": "currentIssues.configureSettings",
+          "when": "view == currentIssues",
+          "group": "navigation"
         }
       ],
       "view/item/context": [
         {
           "command": "currentIssues.view",
+          "when": "view == currentIssues && viewItem == issue",
+          "group": "inline"
+        },
+        {
+          "command": "currentIssues.pin",
           "when": "view == currentIssues && viewItem == issue",
           "group": "inline"
         }
