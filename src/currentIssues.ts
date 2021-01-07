@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
-import * as fs from 'fs';
 import * as path from 'path';
 import axios from 'axios';
+import * as moment from 'moment';
 
 export class currentIssuesProvider implements vscode.TreeDataProvider<Issue> {
   private _onDidChangeTreeData: vscode.EventEmitter<Issue | undefined | void> = new vscode.EventEmitter<
@@ -31,8 +31,13 @@ export class currentIssuesProvider implements vscode.TreeDataProvider<Issue> {
     const permanentToken = vscode.workspace.getConfiguration('youtrack').get('permanentToken');
     const currentIssuesQuery = vscode.workspace.getConfiguration('youtrack').get('currentIssuesQuery');
 
-    if (!host || !permanentToken || !currentIssuesQuery) {
-      vscode.window.showErrorMessage('User has no current YouTrack issues.');
+    // Validate that the user has all required settings
+    if (!host) {
+      vscode.window.showErrorMessage('YouTrack: Missing host setting. Please configure extension settings.');
+      return [];
+    }
+    if (!permanentToken) {
+      vscode.window.showErrorMessage('YouTrack: Missing token. Please configure extension settings.');
       return [];
     }
 
@@ -42,17 +47,26 @@ export class currentIssuesProvider implements vscode.TreeDataProvider<Issue> {
 
     const issues = await axios
       .get(
-        `${host}api/issues?fields=idReadable,summary,resolved,created,customFields(name,value(id,name,login,fullName))&$top=20&query=${currentIssuesQuery}`,
+        `${host}api/issues?fields=idReadable,summary,resolved,reporter(login,fullName),created,customFields(name,value(id,name,login,fullName))&$top=20&query=${currentIssuesQuery}`,
         config
       )
       .then((response) => {
         if (response.data) {
+          console.log(response.data);
           const issuesResponse = response.data.map((issue) => {
-            return new Issue(issue.idReadable, issue.idReadable, issue.summary, vscode.TreeItemCollapsibleState.None, {
-              command: 'vscode.window.showInformationMessage',
-              title: '',
-              arguments: ['TODO: Open the issue in a new tab.'],
-            });
+            return new Issue(
+              issue.idReadable,
+              issue.idReadable,
+              issue.summary,
+              issue.reporter.fullName,
+              moment(issue.created).format('DD MMM YYYY'),
+              vscode.TreeItemCollapsibleState.None,
+              {
+                command: 'workbench.action.files.openFile', // TODO: Call a command to open the preview
+                title: '',
+                arguments: [],
+              }
+            );
           });
           return issuesResponse;
         }
@@ -69,13 +83,15 @@ export class Issue extends vscode.TreeItem {
   constructor(
     public readonly label: string,
     public readonly id: string,
-    private readonly version: string,
+    private readonly summary: string,
+    private readonly createdBy: string,
+    private readonly createdOn: string,
     public readonly collapsibleState: vscode.TreeItemCollapsibleState,
     public readonly command?: vscode.Command
   ) {
     super(label, collapsibleState);
-    this.tooltip = `${this.label}-${this.version}\n ${this.version}`;
-    this.description = this.version;
+    this.tooltip = `${this.label}-${this.summary}\n\nCreated By:  ${this.createdBy}\nCreated On:  ${this.createdOn}`;
+    this.description = this.summary;
   }
 
   iconPath = {

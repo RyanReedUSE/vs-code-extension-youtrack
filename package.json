@@ -108,8 +108,13 @@
         },
         "youtrack.currentIssuesQuery": {
           "type": "string",
-          "default": "Assignee: me #Unresolved",
-          "description": "The filter to be used on the current issues query. Typically, this would be set to the current user's assigned issues. However, it can been user defined by the user if they want to adjust it to include certain query parameters."
+          "default": "Assignee: me -Resolved",
+          "description": "The filter to be used on the current issues query. Typically, this would be set to the current user's assigned issues. However, it can been user defined by the user if they want to adjust it to include certain query parameters. Default: Assignee: me -Unresolved"
+        },
+        "youtrack.maxResponseCount": {
+          "type": "number",
+          "default": 20,
+          "description": "The maximum number of entries that are returned in the response. Default: 20"
         }
       }
     },
@@ -140,8 +145,10 @@
     "axios": "^0.21.1",
     "ftp": "^0.3.10",
     "jsonc-parser": "^0.4.2",
+    "luxon": "^1.25.0",
     "minimist": "^0.2.1",
     "mkdirp": "^0.5.1",
+    "moment": "^2.29.1",
     "rimraf": "^2.6.2"
   }
 }
