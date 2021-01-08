@@ -38,7 +38,7 @@ export class currentIssuesProvider implements vscode.TreeDataProvider<Issue> {
     const host = vscode.workspace.getConfiguration('youtrack').get('host');
     const permanentToken = vscode.workspace.getConfiguration('youtrack').get('permanentToken');
     const currentIssuesQuery = vscode.workspace.getConfiguration('youtrack').get('currentIssuesQuery');
-    const youtrackPinIssueId = this.context.globalState.get('youtrackPinIssueId');
+    const youtrackPinIssueId = this.context.globalState.get('youtrackPinIssueId') as string;
 
     // Validate that the user has all required settings
     if (!host) {
@@ -74,7 +74,8 @@ export class currentIssuesProvider implements vscode.TreeDataProvider<Issue> {
                 command: 'workbench.action.files.openFile', // TODO: Call a command to open the preview
                 title: '',
                 arguments: [],
-              }
+              },
+              youtrackPinIssueId
             );
           });
           return issuesResponse;
