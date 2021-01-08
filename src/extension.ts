@@ -8,7 +8,7 @@ export function activate(context: vscode.ExtensionContext) {
   // Register Current Issues Provider `window.registerTreeDataProvider`
   const _currentIssuesProvider = new currentIssuesProvider(context);
   vscode.window.registerTreeDataProvider('currentIssues', _currentIssuesProvider);
-
+  vscode.workspace.textDocuments;
   // Register Current Issues Configure Settings
   vscode.commands.registerCommand('currentIssues.configureSettings', () =>
     vscode.commands.executeCommand(`workbench.action.openSettings`, `youtrack`)
@@ -26,25 +26,11 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.window.showInformationMessage(`Successfully called add issue.`);
   });
 
-  // register a content provider for the cowsay-scheme
-  const myScheme = 'cowsay';
-  const myProvider = new (class implements vscode.TextDocumentContentProvider {
-    // emitter and its event
-    onDidChangeEmitter = new vscode.EventEmitter<vscode.Uri>();
-    onDidChange = this.onDidChangeEmitter.event;
-
-    provideTextDocumentContent(uri: vscode.Uri): string {
-      // simply invoke cowsay, use uri-path as text
-      return 'hello world';
-    }
-  })();
-  context.subscriptions.push(vscode.workspace.registerTextDocumentContentProvider(myScheme, myProvider));
-
   // Register Current Issues View
   vscode.commands.registerCommand('currentIssues.view', async (node: Issue) => {
     await vscode.window.showTextDocument(
       await vscode.workspace.openTextDocument({ language: 'markdown', content: '### Hello' }),
-      { preview: true }
+      { preview: false }
     );
     vscode.commands.executeCommand(`markdown.showPreview`);
     vscode.window.showInformationMessage(`Successfully called view issue on ${node.id}.`);
