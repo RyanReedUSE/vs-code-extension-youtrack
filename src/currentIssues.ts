@@ -15,7 +15,8 @@ export class currentIssuesProvider implements vscode.TreeDataProvider<Issue> {
   >();
   readonly onDidChangeTreeData: vscode.Event<Issue | undefined | void> = this._onDidChangeTreeData.event;
 
-  refresh(): void {
+  async refresh(): Promise<void> {
+    await this.getChildren();
     this._onDidChangeTreeData.fire();
   }
 
@@ -61,7 +62,6 @@ export class currentIssuesProvider implements vscode.TreeDataProvider<Issue> {
       )
       .then((response) => {
         if (response.data) {
-          console.log(response.data);
           const issuesResponse = response.data.map((issue) => {
             return new Issue(
               issue.idReadable,
@@ -71,9 +71,9 @@ export class currentIssuesProvider implements vscode.TreeDataProvider<Issue> {
               moment(issue.created).format('DD MMM YYYY'),
               vscode.TreeItemCollapsibleState.None,
               {
-                command: 'workbench.action.files.openFile', // TODO: Call a command to open the preview
+                command: 'youtrack.currentIssues.view',
                 title: '',
-                arguments: [],
+                arguments: [undefined, issue.idReadable],
               },
               youtrackPinIssueId
             );
@@ -108,11 +108,11 @@ export class Issue extends vscode.TreeItem {
   iconPath = {
     light:
       this.id === this.youtrackPinIssueId
-        ? path.join(__filename, '..', '..', 'resources', 'light', 'play.svg')
+        ? path.join(__filename, '..', '..', 'resources', 'light', 'pinned.svg')
         : path.join(__filename, '..', '..', 'resources', 'light', 'go-to-file.svg'),
     dark:
       this.id === this.youtrackPinIssueId
-        ? path.join(__filename, '..', '..', 'resources', 'dark', 'play.svg')
+        ? path.join(__filename, '..', '..', 'resources', 'dark', 'pinned.svg')
         : path.join(__filename, '..', '..', 'resources', 'dark', 'go-to-file.svg'),
   };
 

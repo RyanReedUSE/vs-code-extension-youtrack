@@ -43,7 +43,7 @@
     },
     "commands": [
       {
-        "command": "currentIssues.refresh",
+        "command": "youtrack.currentIssues.refresh",
         "title": "Refresh",
         "icon": {
           "light": "resources/light/refresh.svg",
@@ -51,15 +51,15 @@
         }
       },
       {
-        "command": "currentIssues.view",
+        "command": "youtrack.currentIssues.view",
         "title": "View Issue",
         "icon": {
-          "light": "resources/light/edit.svg",
-          "dark": "resources/dark/edit.svg"
+          "light": "resources/light/preview.svg",
+          "dark": "resources/dark/preview.svg"
         }
       },
       {
-        "command": "currentIssues.pin",
+        "command": "youtrack.currentIssues.pin",
         "title": "Pin Issue",
         "icon": {
           "light": "resources/light/pinned.svg",
@@ -67,7 +67,7 @@
         }
       },
       {
-        "command": "currentIssues.unpin",
+        "command": "youtrack.currentIssues.unpin",
         "title": "Unpin Issue",
         "icon": {
           "light": "resources/light/pinned-dirty.svg",
@@ -75,7 +75,7 @@
         }
       },
       {
-        "command": "currentIssues.addIssue",
+        "command": "youtrack.currentIssues.addIssue",
         "title": "Add Issue",
         "icon": {
           "light": "resources/light/add.svg",
@@ -83,7 +83,19 @@
         }
       },
       {
-        "command": "currentIssues.configureSettings",
+        "command": "youtrack.currentIssues.editIssue",
+        "title": "Edit Issue Online",
+        "icon": {
+          "light": "resources/light/edit.svg",
+          "dark": "resources/dark/edit.svg"
+        }
+      },
+      {
+        "command": "youtrack.currentIssues.addTime",
+        "title": "Add Time"
+      },
+      {
+        "command": "youtrack.currentIssues.configureSettings",
         "title": "Configure Settings",
         "icon": {
           "light": "resources/light/gear.svg",
@@ -95,36 +107,40 @@
       "commandPalette": [],
       "view/title": [
         {
-          "command": "currentIssues.refresh",
+          "command": "youtrack.currentIssues.refresh",
           "when": "view == currentIssues",
           "group": "navigation"
         },
         {
-          "command": "currentIssues.addIssue",
+          "command": "youtrack.currentIssues.addIssue",
           "when": "view == currentIssues",
           "group": "navigation"
         },
         {
-          "command": "currentIssues.unpin",
+          "command": "youtrack.currentIssues.unpin",
           "when": "view == currentIssues",
           "group": "navigation"
         },
         {
-          "command": "currentIssues.configureSettings",
+          "command": "youtrack.currentIssues.configureSettings",
           "when": "view == currentIssues",
           "group": "navigation"
         }
       ],
       "view/item/context": [
         {
-          "command": "currentIssues.view",
+          "command": "youtrack.currentIssues.editIssue",
           "when": "view == currentIssues && viewItem == issue",
           "group": "inline"
         },
         {
-          "command": "currentIssues.pin",
+          "command": "youtrack.currentIssues.pin",
           "when": "view == currentIssues && viewItem == issue",
           "group": "inline"
+        },
+        {
+          "command": "youtrack.currentIssues.addTime",
+          "when": "view == currentIssues && viewItem == issue"
         }
       ]
     },
@@ -143,7 +159,7 @@
         },
         "youtrack.currentIssuesQuery": {
           "type": "string",
-          "default": "Assignee: me -Resolved",
+          "default": "Assignee: me -Resolved order by: created",
           "description": "The filter to be used on the current issues query. Typically, this would be set to the current user's assigned issues. However, it can been user defined by the user if they want to adjust it to include certain query parameters. Default: Assignee: me -Unresolved"
         },
         "youtrack.maxResponseCount": {
@@ -156,7 +172,7 @@
     "viewsWelcome": [
       {
         "view": "currentIssues",
-        "contents": "No search results. Ensure you have the settings configured correctly. \n\n[Configure Settings](command:currentIssues.configureSettings)"
+        "contents": "No search results. Ensure you have the settings configured correctly. \n\n[Configure Settings](command:youtrack.currentIssues.configureSettings)"
       }
     ]
   },
