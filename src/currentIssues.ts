@@ -4,6 +4,12 @@ import axios from 'axios';
 import * as moment from 'moment';
 
 export class currentIssuesProvider implements vscode.TreeDataProvider<Issue> {
+  constructor(context: vscode.ExtensionContext) {
+    this.context = context;
+  }
+
+  public context: vscode.ExtensionContext;
+
   private _onDidChangeTreeData: vscode.EventEmitter<Issue | undefined | void> = new vscode.EventEmitter<
     Issue | undefined | void
   >();
@@ -17,8 +23,10 @@ export class currentIssuesProvider implements vscode.TreeDataProvider<Issue> {
     return element;
   }
 
+  /**
+   * Fetch current YouTrack issues
+   */
   async getChildren(element?: Issue): Promise<Issue[]> {
-    // Fetch current YouTrack issues
     return await this.getCurrentIssues();
   }
 
@@ -30,6 +38,7 @@ export class currentIssuesProvider implements vscode.TreeDataProvider<Issue> {
     const host = vscode.workspace.getConfiguration('youtrack').get('host');
     const permanentToken = vscode.workspace.getConfiguration('youtrack').get('permanentToken');
     const currentIssuesQuery = vscode.workspace.getConfiguration('youtrack').get('currentIssuesQuery');
+    const youtrackPinIssueId = this.context.globalState.get('youtrackPinIssueId');
 
     // Validate that the user has all required settings
     if (!host) {
@@ -87,7 +96,8 @@ export class Issue extends vscode.TreeItem {
     public readonly createdBy: string,
     public readonly createdOn: string,
     public readonly collapsibleState: vscode.TreeItemCollapsibleState,
-    public readonly command?: vscode.Command
+    public readonly command?: vscode.Command,
+    public readonly youtrackPinIssueId?: string
   ) {
     super(label, collapsibleState);
     this.tooltip = `${this.label}-${this.summary}\n\nCreated By:  ${this.createdBy}\nCreated On:  ${this.createdOn}`;
@@ -95,8 +105,14 @@ export class Issue extends vscode.TreeItem {
   }
 
   iconPath = {
-    light: path.join(__filename, '..', '..', 'resources', 'light', 'go-to-file.svg'),
-    dark: path.join(__filename, '..', '..', 'resources', 'dark', 'go-to-file.svg'),
+    light:
+      this.id === this.youtrackPinIssueId
+        ? path.join(__filename, '..', '..', 'resources', 'light', 'play.svg')
+        : path.join(__filename, '..', '..', 'resources', 'light', 'go-to-file.svg'),
+    dark:
+      this.id === this.youtrackPinIssueId
+        ? path.join(__filename, '..', '..', 'resources', 'dark', 'play.svg')
+        : path.join(__filename, '..', '..', 'resources', 'dark', 'go-to-file.svg'),
   };
 
   contextValue = 'issue';
