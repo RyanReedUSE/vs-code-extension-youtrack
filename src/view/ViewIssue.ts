@@ -4,7 +4,7 @@ import * as path from 'path';
 
 import { IConfig, ICommand, CommandAction } from './app/model';
 
-export default class ViewLoader {
+export default class ViewIssue {
   private readonly _panel: vscode.WebviewPanel | undefined;
   private readonly _extensionPath: string;
   private _disposables: vscode.Disposable[] = [];
