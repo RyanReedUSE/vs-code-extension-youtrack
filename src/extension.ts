@@ -7,23 +7,7 @@ let currentIssueStatusBar: vscode.StatusBarItem;
 
 export function activate(context: vscode.ExtensionContext) {
   vscode.commands.registerCommand('youtrack.viewConfig', () => {
-    const openDialogOptions: vscode.OpenDialogOptions = {
-      canSelectFiles: true,
-      canSelectFolders: false,
-      canSelectMany: false,
-      filters: {
-        Json: ['json'],
-      },
-    };
-
-    vscode.window.showOpenDialog(openDialogOptions).then(async (uri: vscode.Uri[] | undefined) => {
-      if (uri && uri.length > 0) {
-        const view = ViewIssuePanel.createOrShow(context.extensionUri);
-      } else {
-        vscode.window.showErrorMessage('No valid file selected!');
-        return;
-      }
-    });
+    ViewIssuePanel.createOrShow(context.extensionUri);
   });
 
   // Register Current Issues Provider `window.registerTreeDataProvider`

@@ -1,4 +1,4 @@
-export interface IConfig {
+export interface IIssue {
   name: string;
   description: string;
   users: IUser[];
@@ -11,9 +11,9 @@ export interface IUser {
 
 export interface ICommand {
   action: CommandAction;
-  content: IConfig;
+  content: IIssue;
 }
 
 export enum CommandAction {
-  Save
+  Save,
 }
