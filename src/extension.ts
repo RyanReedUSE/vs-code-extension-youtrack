@@ -6,10 +6,6 @@ import { ViewIssuePanel } from './view/ViewIssuePanel';
 let currentIssueStatusBar: vscode.StatusBarItem;
 
 export function activate(context: vscode.ExtensionContext) {
-  vscode.commands.registerCommand('youtrack.viewConfig', () => {
-    ViewIssuePanel.createOrShow(context.extensionUri);
-  });
-
   // Register Current Issues Provider `window.registerTreeDataProvider`
   const _currentIssuesProvider = new currentIssuesProvider(context);
   vscode.window.registerTreeDataProvider('currentIssues', _currentIssuesProvider);
@@ -43,13 +39,8 @@ export function activate(context: vscode.ExtensionContext) {
   // Register Current Issues View
   vscode.commands.registerCommand('youtrack.currentIssues.view', async (node?: Issue, issueId?: string) => {
     const selectedIssueId = node?.id || issueId;
-
-    await vscode.window.showTextDocument(
-      await vscode.workspace.openTextDocument({ language: 'markdown', content: `### Hello ${selectedIssueId}` }),
-      { preview: false }
-    );
-    vscode.commands.executeCommand(`markdown.showPreview`);
-    vscode.window.showInformationMessage(`Successfully called view issue on ${selectedIssueId}.`);
+    ViewIssuePanel.kill();
+    ViewIssuePanel.createOrShow(context.extensionUri, selectedIssueId);
   });
 
   // Create Status Bar Item

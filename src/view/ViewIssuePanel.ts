@@ -9,11 +9,12 @@ export class ViewIssuePanel {
 
   public static readonly viewType = 'view-issue';
 
+  private readonly _issueId: string;
   private readonly _panel: vscode.WebviewPanel;
   private readonly _extensionUri: vscode.Uri;
   private _disposables: vscode.Disposable[] = [];
 
-  public static createOrShow(extensionUri: vscode.Uri) {
+  public static createOrShow(extensionUri: vscode.Uri, issueId: string) {
     const column = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.viewColumn : undefined;
 
     // If we already have a panel, show it.
@@ -25,24 +26,19 @@ export class ViewIssuePanel {
 
     // Otherwise, create a new panel.
 
-    const panel = vscode.window.createWebviewPanel(
-      ViewIssuePanel.viewType,
-      'View Issue',
-      column || vscode.ViewColumn.One,
-      {
-        // Enable javascript in the webview
-        enableScripts: true,
+    const panel = vscode.window.createWebviewPanel(ViewIssuePanel.viewType, issueId, column || vscode.ViewColumn.One, {
+      // Enable javascript in the webview
+      enableScripts: true,
 
-        // And restrict the webview to only loading content from our extension's `media` directory.
-        localResourceRoots: [
-          vscode.Uri.joinPath(extensionUri, 'media'),
-          vscode.Uri.joinPath(extensionUri, 'out/compiled'),
-          vscode.Uri.joinPath(extensionUri, 'issueViewer'),
-        ],
-      }
-    );
+      // And restrict the webview to only loading content from our extension's `media` directory.
+      localResourceRoots: [
+        vscode.Uri.joinPath(extensionUri, 'media'),
+        vscode.Uri.joinPath(extensionUri, 'out/compiled'),
+        vscode.Uri.joinPath(extensionUri, 'issueViewer'),
+      ],
+    });
 
-    ViewIssuePanel.currentPanel = new ViewIssuePanel(panel, extensionUri);
+    ViewIssuePanel.currentPanel = new ViewIssuePanel(panel, extensionUri, issueId);
   }
 
   public static kill() {
@@ -50,11 +46,12 @@ export class ViewIssuePanel {
     ViewIssuePanel.currentPanel = undefined;
   }
 
-  public static revive(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
-    ViewIssuePanel.currentPanel = new ViewIssuePanel(panel, extensionUri);
+  public static revive(panel: vscode.WebviewPanel, extensionUri: vscode.Uri, issueId: string) {
+    ViewIssuePanel.currentPanel = new ViewIssuePanel(panel, extensionUri, issueId);
   }
 
-  private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
+  private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri, issueId: string) {
+    this._issueId = issueId;
     this._panel = panel;
     this._extensionUri = extensionUri;
     // Set the WebView's initial html content
@@ -149,7 +146,8 @@ export class ViewIssuePanel {
         <link href="${stylesResetUri}" rel="stylesheet">
         <link href="${stylesMainUri}" rel="stylesheet">
         <script nonce="${nonce}">
-          window.acquireVsCodeApi = acquireVsCodeApi;
+          window.acquireVsCodeApi = acquireVsCodeApi;          
+          window.issueId = ${this._issueId}
         </script>
 			</head>
       <body>

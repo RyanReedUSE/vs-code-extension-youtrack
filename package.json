@@ -232,6 +232,8 @@
     "moment": "^2.29.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-markdown": "^5.0.3",
+    "remark-gfm": "^1.0.0",
     "rimraf": "^2.6.2",
     "vscode-test": "^1.4.1"
   }
