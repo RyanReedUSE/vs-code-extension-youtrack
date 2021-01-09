@@ -1,10 +1,31 @@
 'use strict';
 import * as vscode from 'vscode';
 import { currentIssuesProvider, Issue } from './currentIssues';
+import ViewLoader from './view/ViewLoader';
 
 let currentIssueStatusBar: vscode.StatusBarItem;
 
 export function activate(context: vscode.ExtensionContext) {
+  vscode.commands.registerCommand('youtrack.viewConfig', () => {
+    const openDialogOptions: vscode.OpenDialogOptions = {
+      canSelectFiles: true,
+      canSelectFolders: false,
+      canSelectMany: false,
+      filters: {
+        Json: ['json'],
+      },
+    };
+
+    vscode.window.showOpenDialog(openDialogOptions).then(async (uri: vscode.Uri[] | undefined) => {
+      if (uri && uri.length > 0) {
+        const view = new ViewLoader(uri[0], context.extensionPath);
+      } else {
+        vscode.window.showErrorMessage('No valid file selected!');
+        return;
+      }
+    });
+  });
+
   // Register Current Issues Provider `window.registerTreeDataProvider`
   const _currentIssuesProvider = new currentIssuesProvider(context);
   vscode.window.registerTreeDataProvider('currentIssues', _currentIssuesProvider);
@@ -44,7 +65,7 @@ export function activate(context: vscode.ExtensionContext) {
       { preview: false }
     );
     vscode.commands.executeCommand(`markdown.showPreview`);
-    vscode.window.showInformationMessage(`Successfully called view issue on ${node.id}.`);
+    vscode.window.showInformationMessage(`Successfully called view issue on ${selectedIssueId}.`);
   });
 
   // Create Status Bar Item
@@ -96,7 +117,7 @@ export function activate(context: vscode.ExtensionContext) {
  */
 async function updateStatusBarItem(id?: string, summary?: string): Promise<void> {
   if (id) {
-    currentIssueStatusBar.text = `$(tasklist) ${id} ${summary.substring(0, 20)}`;
+    currentIssueStatusBar.text = `$(tasklist) ${id} ${summary?.substring(0, 20)}`;
     currentIssueStatusBar.tooltip = summary;
     currentIssueStatusBar.command = {
       command: 'youtrack.currentIssues.view',

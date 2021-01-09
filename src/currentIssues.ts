@@ -13,7 +13,8 @@ export class currentIssuesProvider implements vscode.TreeDataProvider<Issue> {
   private _onDidChangeTreeData: vscode.EventEmitter<Issue | undefined | void> = new vscode.EventEmitter<
     Issue | undefined | void
   >();
-  readonly onDidChangeTreeData: vscode.Event<Issue | undefined | void> = this._onDidChangeTreeData.event;
+
+  readonly onDidChangeTreeData: vscode.Event<Issue | undefined | null | void> = this._onDidChangeTreeData.event;
 
   async refresh(): Promise<void> {
     await this.getChildren();
