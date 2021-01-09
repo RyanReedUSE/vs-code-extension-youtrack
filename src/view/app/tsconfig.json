@@ -3,7 +3,7 @@
         "module": "esnext",
         "moduleResolution": "node",
         "target": "es6",
-        "outDir": "configViewer",
+        "outDir": "out",
         "lib": [
             "es6",
             "dom"

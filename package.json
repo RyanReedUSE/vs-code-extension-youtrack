@@ -13,7 +13,8 @@
   ],
   "activationEvents": [
     "onView:currentIssues",
-    "onView:searchIssues"
+    "onView:searchIssues",
+    "onCommand:youtrack.viewConfig"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -112,7 +113,7 @@
       },
       {
         "command": "youtrack.viewConfig",
-        "title": "Display config JSON REMOVE ME",
+        "title": "Show WebView",
         "category": "Webview React"
       }
     ],

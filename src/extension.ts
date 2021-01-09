@@ -1,7 +1,7 @@
 'use strict';
 import * as vscode from 'vscode';
 import { currentIssuesProvider, Issue } from './currentIssues';
-import ViewLoader from './view/ViewLoader';
+import { ViewIssuePanel } from './view/ViewIssuePanel';
 
 let currentIssueStatusBar: vscode.StatusBarItem;
 
@@ -18,7 +18,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     vscode.window.showOpenDialog(openDialogOptions).then(async (uri: vscode.Uri[] | undefined) => {
       if (uri && uri.length > 0) {
-        const view = new ViewLoader(uri[0], context.extensionPath);
+        const view = ViewIssuePanel.createOrShow(context.extensionUri);
       } else {
         vscode.window.showErrorMessage('No valid file selected!');
         return;

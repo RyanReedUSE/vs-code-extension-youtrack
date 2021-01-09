@@ -17,7 +17,7 @@ export default class ViewLoader {
       this._panel = vscode.window.createWebviewPanel('configView', 'Config View', vscode.ViewColumn.One, {
         enableScripts: true,
 
-        localResourceRoots: [vscode.Uri.file(path.join(extensionPath, 'configViewer'))],
+        localResourceRoots: [vscode.Uri.file(path.join(extensionPath, 'issueViewer'))],
       });
 
       this._panel.webview.html = this.getWebviewContent(config);
@@ -38,7 +38,7 @@ export default class ViewLoader {
 
   private getWebviewContent(config: IConfig): string {
     // Local path to main script run in the webview
-    const reactAppPathOnDisk = vscode.Uri.file(path.join(this._extensionPath, 'configViewer', 'configViewer.js'));
+    const reactAppPathOnDisk = vscode.Uri.file(path.join(this._extensionPath, 'issueViewer', 'issueViewer.js'));
     const reactAppUri = reactAppPathOnDisk.with({ scheme: 'vscode-resource' });
 
     const configJson = JSON.stringify(config);
