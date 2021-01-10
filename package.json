@@ -200,7 +200,9 @@
     "watch:views": "webpack --watch --mode development",
     "postinstall": "node ./node_modules/vscode/bin/install",
     "test": "npm run compile && node ./node_modules/vscode/bin/test",
-    "lint": "eslint . --ext .ts,.tsx"
+    "lint": "eslint . --ext .ts,.tsx",
+    "build:css": "postcss src/style/tailwind.css -o src/style/main.css",
+    "build:watch": "postcss src/style/tailwind.css -o src/style/main.css --watch"
   },
   "devDependencies": {
     "@types/mkdirp": "^0.5.2",
@@ -223,6 +225,7 @@
     "webpack-cli": "^3.3.5"
   },
   "dependencies": {
+    "autoprefixer": "^9.8.6",
     "axios": "^0.21.1",
     "ftp": "^0.3.10",
     "jsonc-parser": "^0.4.2",
@@ -230,11 +233,14 @@
     "minimist": "^0.2.1",
     "mkdirp": "^0.5.1",
     "moment": "^2.29.1",
+    "postcss": "^8.2.4",
+    "postcss-cli": "^8.3.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-markdown": "^5.0.3",
     "remark-gfm": "^1.0.0",
     "rimraf": "^2.6.2",
+    "tailwindcss": "^2.0.2",
     "vscode-test": "^1.4.1"
   }
 }

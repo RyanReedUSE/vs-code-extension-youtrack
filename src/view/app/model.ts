@@ -1,19 +1,66 @@
 export interface IIssue {
-  name: string;
+  updated: number;
+  project: Project;
+  resolved?: any;
+  summary: string;
+  numberInProject: number;
+  votes: number;
+  reporter: Reporter;
+  commentsCount: number;
+  usesMarkdown: boolean;
+  idReadable: string;
+  tags: any[];
+  attachments: Attachment[];
+  customFields: CustomField[];
+  updater: Updater;
+  comments: any[];
+  links: Link[];
+  created: number;
   description: string;
-  users: IUser[];
+  $type: string;
 }
-export interface IUser {
+
+export interface Project {
+  shortName: string;
   name: string;
-  active: boolean;
-  roles: string[];
+  $type: string;
 }
 
-export interface ICommand {
-  action: CommandAction;
-  content: IIssue;
+export interface Reporter {
+  email: string;
+  avatarUrl: string;
+  login: string;
+  fullName: string;
+  $type: string;
 }
 
-export enum CommandAction {
-  Save,
+export interface Attachment {
+  url: string;
+  name: string;
+  $type: string;
+}
+
+export interface CustomField {
+  value: any;
+  name: string;
+  $type: string;
+}
+
+export interface Updater {
+  email: string;
+  avatarUrl: string;
+  login: string;
+  fullName: string;
+  $type: string;
+}
+
+export interface LinkType {
+  $type: string;
+}
+
+export interface Link {
+  direction: string;
+  linkType: LinkType;
+  issues: any[];
+  $type: string;
 }

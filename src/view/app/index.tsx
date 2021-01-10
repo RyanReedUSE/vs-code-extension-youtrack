@@ -1,17 +1,19 @@
 import * as React from 'react';
+import '../../style/main.css';
 import * as ReactDOM from 'react-dom';
 
 import './index.css';
-import { IIssue } from './model';
 import Issue from './issue';
 
 declare global {
   interface Window {
     acquireVsCodeApi(): any;
-    initialData: IIssue;
+    issueData: any;
   }
 }
 
 const vscode = window.acquireVsCodeApi();
 
-ReactDOM.render(<Issue vscode={vscode} initialData={window.initialData} />, document.getElementById('root'));
+console.log('issue data', window.issueData);
+
+ReactDOM.render(<Issue vscode={vscode} initialData={window.issueData} />, document.getElementById('root'));
