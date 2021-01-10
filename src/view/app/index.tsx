@@ -14,6 +14,4 @@ declare global {
 
 const vscode = window.acquireVsCodeApi();
 
-console.log('issue data', window.issueData);
-
-ReactDOM.render(<Issue vscode={vscode} initialData={window.issueData} />, document.getElementById('root'));
+ReactDOM.render(<Issue vscode={vscode} issueData={window.issueData} />, document.getElementById('root'));

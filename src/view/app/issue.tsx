@@ -30,16 +30,22 @@ export default class IssuePreview extends React.Component<IIssueProps> {
   // }
 
   render() {
+    console.log(this.props.issueData);
+
     return (
-      <>
-        <div className="grid">
-          <div>{this.props.issueData.summary}</div>
-        </div>
-        <div className="grid grid-cols-3">
-          <div className="col-span-2">Issue Description</div>
-          <div className="col-span-1">Issue Custom Fields</div>
-        </div>
-      </>
+      !!this.props.issueData && (
+        <>
+          <div className="grid">
+            <h1>{this.props.issueData.idReadable}</h1>
+            <h1>{this.props.issueData.summary}</h1>
+          </div>
+          <hr></hr>
+          <div className="grid grid-cols-3">
+            <div className="col-span-2">Issue Description</div>
+            <div className="col-span-1">Issue Custom Fields</div>
+          </div>
+        </>
+      )
     );
   }
 }
