@@ -1,5 +1,7 @@
 import * as React from 'react';
 import '../../style/main.css';
+import '../../../media/reset.css';
+import '../../../media/vscode.css';
 import * as ReactDOM from 'react-dom';
 
 import './index.css';

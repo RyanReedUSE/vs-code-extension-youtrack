@@ -75,9 +75,11 @@ export class ViewIssuePanel {
 
     const issueData = await fetchIssueData(issueId);
 
-    console.log(issueData);
-
     ViewIssuePanel.currentPanel = new ViewIssuePanel(panel, extensionUri, issueData);
+
+    setTimeout(() => {
+      vscode.commands.executeCommand('workbench.action.webview.openDeveloperTools');
+    }, 500);
   }
 
   public static kill() {
@@ -86,7 +88,7 @@ export class ViewIssuePanel {
   }
 
   public static revive(panel: vscode.WebviewPanel, extensionUri: vscode.Uri, issueData: any) {
-    ViewIssuePanel.currentPanel = new ViewIssuePanel(panel, extensionUri, issueId);
+    ViewIssuePanel.currentPanel = new ViewIssuePanel(panel, extensionUri, issueData);
   }
 
   private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri, issueData: any) {
@@ -178,8 +180,6 @@ export class ViewIssuePanel {
                  script-src 'unsafe-eval' 'unsafe-inline' vscode-resource:;
                  style-src vscode-resource: 'unsafe-inline';">
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="${stylesResetUri}" rel="stylesheet">
-        <link href="${stylesMainUri}" rel="stylesheet">
         <script nonce="${nonce}">
           window.acquireVsCodeApi = acquireVsCodeApi;
           window.issueData = ${JSON.stringify(this._issueData)};
