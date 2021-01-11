@@ -4,6 +4,7 @@ import * as ReactMarkdown from 'react-markdown';
 import * as gfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { a11yDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import * as moment from 'moment';
 
 interface IIssueProps {
   vscode: any;
@@ -24,10 +25,6 @@ export default class IssuePreview extends React.Component<IIssueProps> {
     }
   }
 
-  // private renderReactMarkdown() {
-  //   return <ReactMarkdown plugins={[gfm]} children={this.value}></ReactMarkdown>;
-  // }
-
   private renderers = {
     code: ({ language, value }) => {
       return <SyntaxHighlighter style={a11yDark} language={language} children={value} showLineNumbers={true} />;
@@ -44,6 +41,12 @@ export default class IssuePreview extends React.Component<IIssueProps> {
             <h1 className="">
               <b>{this.props.issueData.idReadable}</b> {this.props.issueData.summary}
             </h1>
+            <p className="text-gray-400">
+              Created by {this.props.issueData.reporter.fullName} {moment(this.props.issueData.created).fromNow()}
+            </p>
+            <p className="text-gray-400">
+              Updated by {this.props.issueData.reporter.fullName} {moment(this.props.issueData.updated).fromNow()}
+            </p>
           </div>
           <hr className="mt-4 mb-4"></hr>
           <div className="grid grid-cols-3">
