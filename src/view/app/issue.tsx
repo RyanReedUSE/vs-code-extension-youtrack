@@ -2,6 +2,8 @@ import * as React from 'react';
 import { IIssue } from './model';
 import * as ReactMarkdown from 'react-markdown';
 import * as gfm from 'remark-gfm';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { arta } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 interface IIssueProps {
   vscode: any;
@@ -26,6 +28,12 @@ export default class IssuePreview extends React.Component<IIssueProps> {
   //   return <ReactMarkdown plugins={[gfm]} children={this.value}></ReactMarkdown>;
   // }
 
+  private renderers = {
+    code: ({ language, value }) => {
+      return <SyntaxHighlighter style={arta} language={language} children={value} />;
+    },
+  };
+
   render() {
     console.log(this.props.issueData);
 
@@ -40,7 +48,11 @@ export default class IssuePreview extends React.Component<IIssueProps> {
           <hr className="mt-4 mb-4"></hr>
           <div className="grid grid-cols-3">
             <div className="col-span-2">
-              <ReactMarkdown plugins={[gfm]} children={this.props.issueData.description}></ReactMarkdown>
+              <ReactMarkdown
+                renderers={this.renderers}
+                plugins={[gfm]}
+                children={this.props.issueData.description}
+              ></ReactMarkdown>
             </div>
             <div className="col-span-1">Issue Custom Fields</div>
           </div>
