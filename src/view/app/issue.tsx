@@ -3,7 +3,7 @@ import { IIssue } from './model';
 import * as ReactMarkdown from 'react-markdown';
 import * as gfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { arta } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { a11yDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 interface IIssueProps {
   vscode: any;
@@ -30,7 +30,7 @@ export default class IssuePreview extends React.Component<IIssueProps> {
 
   private renderers = {
     code: ({ language, value }) => {
-      return <SyntaxHighlighter style={arta} language={language} children={value} />;
+      return <SyntaxHighlighter style={a11yDark} language={language} children={value} showLineNumbers={true} />;
     },
   };
 
