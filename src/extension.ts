@@ -24,7 +24,7 @@ export function activate(context: vscode.ExtensionContext) {
       'vscode.open',
       vscode.Uri.parse(`${vscode.workspace.getConfiguration('youtrack').get('host')}newIssue`)
     );
-    vscode.window.showInformationMessage(`Successfully called add issue.`);
+    vscode.window.showInformationMessage(`NOT IMPLEMENTED: Successfully called add issue.`);
   });
 
   // Register Current Issues Add Issue
@@ -34,6 +34,14 @@ export function activate(context: vscode.ExtensionContext) {
       vscode.Uri.parse(`${vscode.workspace.getConfiguration('youtrack').get('host')}issue/${node.id}`)
     );
     vscode.window.showInformationMessage(`Opened issue in browser.`);
+  });
+
+  // Register Current Issues View
+  vscode.commands.registerCommand('youtrack.openIssueById', async () => {
+    const result = await vscode.window.showInputBox({
+      placeHolder: 'Enter YouTrack Issue Id (For example: YT-123)',
+    });
+    vscode.commands.executeCommand('youtrack.currentIssues.view', undefined, result);
   });
 
   // Register Current Issues View

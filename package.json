@@ -112,9 +112,9 @@
         }
       },
       {
-        "command": "youtrack.viewConfig",
-        "title": "Show WebView",
-        "category": "Webview React"
+        "command": "youtrack.openIssueById",
+        "title": "Open Issue By Id",
+        "category": "YouTrack"
       }
     ],
     "menus": {

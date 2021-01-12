@@ -7,6 +7,8 @@
 		// Linting
 		"dbaeumer.vscode-eslint",
 		// Automatically open the markdown preview when selecting a YouTrack Issue. 
-		"hnw.vscode-auto-open-markdown-preview"
+		"hnw.vscode-auto-open-markdown-preview",
+		// VS Code git
+		"vscode.git"
 	]
 }

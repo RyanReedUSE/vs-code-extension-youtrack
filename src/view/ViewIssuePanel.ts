@@ -1,41 +1,8 @@
+/*eslint no-octal-escape: "error"*/
 import axios from 'axios';
 import * as vscode from 'vscode';
 import { getNonce } from '../getNonce';
-
-async function fetchIssueData(issueId: string): Promise<any> {
-  // Get YouTrack Extension Settings
-  const host = vscode.workspace.getConfiguration('youtrack').get('host');
-  const permanentToken = vscode.workspace.getConfiguration('youtrack').get('permanentToken');
-
-  // Validate that the user has all required settings
-  if (!host) {
-    vscode.window.showErrorMessage('YouTrack: Missing host setting. Please configure extension settings.');
-    return undefined;
-  }
-  if (!permanentToken) {
-    vscode.window.showErrorMessage('YouTrack: Missing token. Please configure extension settings.');
-    return undefined;
-  }
-
-  const config = {
-    headers: { Authorization: `Bearer ${permanentToken}` },
-  };
-
-  const issues = await axios
-    .get(
-      `${host}api/issues/${issueId}?fields=idReadable,summary,resolved,created,updated,numberInProject,project(shortName,name),description,reporter(login,fullName,email,avatarUrl),updater(login,fullName,email,avatarUrl),votes,comments(text,created,updated,author(login,fullName)),commentsCount,tags(color(background,foreground),name),links(direction,linkType,issues(idReadable,summary)),attachments(name,url),usesMarkdown,customFields(name,value(id,name,login,fullName))`,
-      config
-    )
-    .then((response) => {
-      return response.data;
-    })
-    .catch((err) => {
-      return undefined;
-    });
-
-  return issues;
-}
-
+import { createBranch, fetchIssueData, openUrl, updateIssueStatus } from '../utils';
 export class ViewIssuePanel {
   /**
    * Track the currently panel. Only allow a single panel to exist at a time.
@@ -105,16 +72,20 @@ export class ViewIssuePanel {
 
     // Handle messages from the webview
     this._panel.webview.onDidReceiveMessage(
-      (message) => {
+      async (message) => {
         switch (message.command) {
           case 'alert':
             vscode.window.showErrorMessage(message.text);
             return;
           case 'link':
-            vscode.commands.executeCommand(
-              'vscode.open',
-              vscode.Uri.parse(`${vscode.workspace.getConfiguration('youtrack').get('host')}/${message.text}`)
-            );
+            openUrl(message.text);
+            return;
+          case 'updateStatus':
+            updateIssueStatus(message.text);
+            return;
+          case 'createBranch':
+            // Create a Branch Based on The Current Issue Id and Name
+            createBranch(message.text);
             return;
         }
       },

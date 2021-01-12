@@ -16,8 +16,6 @@ export default class IssuePreview extends React.Component<IIssueProps> {
   constructor(props: any) {
     super(props);
 
-    // const initialData = this.props.initialData;
-
     const oldState = this.props.vscode.getState();
     if (oldState) {
       this.state = oldState;
@@ -32,6 +30,9 @@ export default class IssuePreview extends React.Component<IIssueProps> {
     },
   };
 
+  /*
+   * Render Title Block
+   */
   private renderTitleBlock = () => {
     return (
       <div className="grid">
@@ -70,11 +71,26 @@ export default class IssuePreview extends React.Component<IIssueProps> {
   };
 
   render() {
-    console.log(this.props.issueData);
+    const { issueData, vscode } = this.props;
 
     return (
-      !!this.props.issueData && (
+      !!issueData && (
         <>
+          <div className="mt-3">
+            <button className="w-1/6 mr-3">Edit</button>
+            <button className="w-1/6 mx-3">Update Status</button>
+            <button
+              className="w-1/6 ml-3"
+              onClick={() =>
+                vscode.postMessage({
+                  command: 'createBranch',
+                  text: `${issueData.idReadable}_${issueData.summary.replace(/ /g, '')}`,
+                })
+              }
+            >
+              Create Branch
+            </button>
+          </div>
           {this.renderTitleBlock()}
           <hr className="mt-4 mb-4"></hr>
           <div className="grid grid-cols-3">

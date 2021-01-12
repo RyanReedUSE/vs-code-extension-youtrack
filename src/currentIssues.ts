@@ -106,6 +106,8 @@ export class Issue extends vscode.TreeItem {
     this.description = this.summary;
   }
 
+  // TODO: Update the icon to match the resolved state, empty square for unresolved, checkmark for resolved
+
   iconPath = {
     light:
       this.id === this.youtrackPinIssueId
