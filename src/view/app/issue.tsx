@@ -1,13 +1,14 @@
+import * as moment from 'moment';
 import * as React from 'react';
-import { IIssue } from './model';
 import * as ReactMarkdown from 'react-markdown';
-import * as gfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { a11yDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import * as moment from 'moment';
+import * as gfm from 'remark-gfm';
+import { IIssue } from './model';
 
 interface IIssueProps {
   vscode: any;
+  host: string;
   issueData: IIssue;
 }
 
@@ -45,7 +46,11 @@ export default class IssuePreview extends React.Component<IIssueProps> {
               Created by {this.props.issueData.reporter.fullName} {moment(this.props.issueData.created).fromNow()}
             </p>
             <p className="text-gray-400">
-              Updated by {this.props.issueData.reporter.fullName} {moment(this.props.issueData.updated).fromNow()}
+              Updated by{' '}
+              <a href={`admin/hub/users/${this.props.issueData.updater.login}`}>
+                {this.props.issueData.updater.fullName}
+              </a>{' '}
+              {moment(this.props.issueData.updated).fromNow()}
             </p>
           </div>
           <hr className="mt-4 mb-4"></hr>

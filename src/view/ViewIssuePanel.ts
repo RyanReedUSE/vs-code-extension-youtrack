@@ -103,18 +103,24 @@ export class ViewIssuePanel {
     // This happens when the user closes the panel or when the panel is closed programmatically
     this._panel.onDidDispose(() => this.dispose(), null, this._disposables);
 
-    // // Handle messages from the webview
-    // this._panel.webview.onDidReceiveMessage(
-    //   (message) => {
-    //     switch (message.command) {
-    //       case "alert":
-    //         vscode.window.showErrorMessage(message.text);
-    //         return;
-    //     }
-    //   },
-    //   null,
-    //   this._disposables
-    // );
+    // Handle messages from the webview
+    this._panel.webview.onDidReceiveMessage(
+      (message) => {
+        switch (message.command) {
+          case 'alert':
+            vscode.window.showErrorMessage(message.text);
+            return;
+          case 'link':
+            vscode.commands.executeCommand(
+              'vscode.open',
+              vscode.Uri.parse(`${vscode.workspace.getConfiguration('youtrack').get('host')}/${message.text}`)
+            );
+            return;
+        }
+      },
+      null,
+      this._disposables
+    );
   }
 
   public dispose() {
@@ -156,6 +162,8 @@ export class ViewIssuePanel {
   }
 
   private _getHtmlForWebview(webview: vscode.Webview) {
+    // Get host
+    const host = vscode.workspace.getConfiguration('youtrack').get('host') as string;
     // // And the uri we use to load this script in the webview
     const scriptUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'issueViewer', 'issueViewer.js'));
 
