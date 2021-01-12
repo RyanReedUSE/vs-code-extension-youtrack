@@ -60,21 +60,16 @@ export default class IssuePreview extends React.Component<IIssueProps> {
    */
   private transformMarkdown = () => {
     const { issueData, host } = this.props;
-
     let descriptionMarkdown = issueData.description;
 
     issueData.attachments.forEach((attachment) => {
-      console.log(descriptionMarkdown.replace(attachment.name, `${host}${attachment.url}`));
       descriptionMarkdown = descriptionMarkdown.replace(attachment.name, `${host}${attachment.url}`);
     });
-
-    console.log(descriptionMarkdown);
 
     return descriptionMarkdown;
   };
 
   render() {
-    process;
     console.log(this.props.issueData);
 
     return (
