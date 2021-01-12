@@ -191,6 +191,7 @@ export class ViewIssuePanel {
         <script nonce="${nonce}">
           window.acquireVsCodeApi = acquireVsCodeApi;
           window.issueData = ${JSON.stringify(this._issueData)};
+          window.youtrackHost = "${encodeURIComponent(host)}";
         </script>
 			</head>
       <body>

@@ -16,6 +16,7 @@ declare global {
 }
 
 const vscode = window.acquireVsCodeApi();
+const host = decodeURIComponent(window.youtrackHost).replace('/youtrack/', ''); // TODO: Validate that this works for all users and version of YouTrack
 
 document.addEventListener(
   'click',
@@ -36,7 +37,4 @@ document.addEventListener(
   true
 );
 
-ReactDOM.render(
-  <Issue vscode={vscode} issueData={window.issueData} host={window.youtrackHost} />,
-  document.getElementById('root')
-);
+ReactDOM.render(<Issue vscode={vscode} issueData={window.issueData} host={host} />, document.getElementById('root'));
