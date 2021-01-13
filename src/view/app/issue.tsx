@@ -55,6 +55,10 @@ export default class IssuePreview extends React.Component<IIssueProps> {
     );
   };
 
+  private renderCustomFields = () => {
+    return 'Issue Custom Fields';
+  };
+
   /*
    * Transform Markdown
    * Update convert markdown images to URLs from attachments
@@ -104,14 +108,21 @@ export default class IssuePreview extends React.Component<IIssueProps> {
           {this.renderTitleBlock()}
           <hr className="mt-4 mb-4"></hr>
           <div className="grid grid-cols-3">
-            <div className="col-span-2">
+            <div className="md:col-span-2 col-span-3">
               <ReactMarkdown
                 renderers={this.renderers}
                 plugins={[gfm]}
                 children={this.transformMarkdown()}
               ></ReactMarkdown>
             </div>
-            <div className="col-span-1">Issue Custom Fields</div>
+            <div className="md:col-span-1 col-span-3 sm:order-first xs:order-first md:order-last">
+              <div
+                className="mx-3 mb-3"
+                style={{ backgroundColor: 'var(--vscode-breadcrumbPicker-background)', borderRadius: '6px' }}
+              >
+                {this.renderCustomFields()}
+              </div>
+            </div>
           </div>
         </>
       )
