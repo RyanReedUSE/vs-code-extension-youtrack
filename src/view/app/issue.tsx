@@ -56,7 +56,24 @@ export default class IssuePreview extends React.Component<IIssueProps> {
   };
 
   private renderCustomFields = () => {
-    return 'Issue Custom Fields';
+    const { issueData } = this.props;
+
+    console.log(issueData);
+
+    return issueData.customFields.map((field) => {
+      return (
+        <div key={field.name}>
+          <div>
+            <b>{field.name}</b>
+          </div>
+          {!!field.value && !field.value.minutes ? (
+            <div className="mb-3 h-6">{field.value && field.value.name ? field.value?.name : '-'}</div>
+          ) : (
+            <div className="mb-3 h-6">{field.value && field.value.minutes ? field.value?.presentation : '-'}</div>
+          )}
+        </div>
+      );
+    });
   };
 
   /*
@@ -117,8 +134,8 @@ export default class IssuePreview extends React.Component<IIssueProps> {
             </div>
             <div className="md:col-span-1 col-span-3 sm:order-first xs:order-first md:order-last">
               <div
-                className="mx-3 mb-3"
-                style={{ backgroundColor: 'var(--vscode-breadcrumbPicker-background)', borderRadius: '6px' }}
+                className="mx-3 mb-3 p-8"
+                style={{ backgroundColor: 'var(--vscode-breadcrumbPicker-background)', borderRadius: '8px' }}
               >
                 {this.renderCustomFields()}
               </div>

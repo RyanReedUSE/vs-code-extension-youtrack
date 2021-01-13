@@ -45,7 +45,6 @@ export interface CustomField {
   name: string;
   $type: string;
 }
-
 export interface Updater {
   email: string;
   avatarUrl: string;
