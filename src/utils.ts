@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import axios from 'axios';
+import { IssueProject } from './model';
 
 /**
  * fetchIssueData - Fetches issue data for a given issueId
@@ -106,7 +107,41 @@ export const openUrl = async (path: string) => {
  * @param {string} issueId
  */
 export const updateIssueStatus = async (issueId: string) => {
+  // Get YouTrack Extension Settings
+  const host = vscode.workspace.getConfiguration('youtrack').get('host');
+  const permanentToken = vscode.workspace.getConfiguration('youtrack').get('permanentToken');
+
+  // Validate that the user has all required settings
+  if (!host) {
+    vscode.window.showErrorMessage('YouTrack: Missing host setting. Please configure extension settings.');
+    return undefined;
+  }
+  if (!permanentToken) {
+    vscode.window.showErrorMessage('YouTrack: Missing token. Please configure extension settings.');
+    return undefined;
+  }
+
+  const config = {
+    headers: { Authorization: `Bearer ${permanentToken}` },
+  };
+
   // TODO: Fetch a list of Statuses from the issues project and present them as a list to the user.
+  const issue: IssueProject = await axios
+    .get(`${host}api/issues/${issueId}?fields=idReadable,summary,project(shortName,name)`, config)
+    .then((response) => {
+      return response.data;
+    });
+
+  const project = await axios
+    .get(
+      `${host}api/admin/projects/${issue.project.shortName}?fields=shortName,name,projectCustomField(field(name,fieldType,aliases))`,
+      config
+    )
+    .then((response) => {
+      return response.data;
+    });
+
+  // TODO: get list of statuses https://usengineering.myjetbrains.com/youtrack/api/admin/projects/QH/customFields/99-21?fields=name,id,bundle(id,name,values(isResolved,name))
 
   // TODO: Ask the user to select a status, update the issue in youtrack.
 
