@@ -78,7 +78,17 @@ export default class IssuePreview extends React.Component<IIssueProps> {
         <>
           <div className="mt-3">
             <button className="w-1/6 mr-3">Edit</button>
-            <button className="w-1/6 mx-3">Update Status</button>
+            <button
+              className="w-1/6 mx-3"
+              onClick={() =>
+                vscode.postMessage({
+                  command: 'updateStatus',
+                  text: issueData.idReadable,
+                })
+              }
+            >
+              Update Status
+            </button>
             <button
               className="w-1/6 ml-3"
               onClick={() =>

@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import axios from 'axios';
-import { IssueProject } from './model';
+import { CustomFieldStatus, IssueProject, IssueProjectCustomFields } from './model';
 
 /**
  * fetchIssueData - Fetches issue data for a given issueId
@@ -125,25 +125,59 @@ export const updateIssueStatus = async (issueId: string) => {
     headers: { Authorization: `Bearer ${permanentToken}` },
   };
 
-  // TODO: Fetch a list of Statuses from the issues project and present them as a list to the user.
+  // Fetch issue details to get project id.
   const issue: IssueProject = await axios
-    .get(`${host}api/issues/${issueId}?fields=idReadable,summary,project(shortName,name)`, config)
-    .then((response) => {
-      return response.data;
-    });
-
-  const project = await axios
     .get(
-      `${host}api/admin/projects/${issue.project.shortName}?fields=shortName,name,projectCustomField(field(name,fieldType,aliases))`,
+      `${host}api/issues/${issueId}?fields=idReadable,summary,project(shortName,name),customFields(id,fieldType,bundle(id,name,values(isResolved,name))`,
       config
     )
     .then((response) => {
       return response.data;
     });
 
-  // TODO: get list of statuses https://usengineering.myjetbrains.com/youtrack/api/admin/projects/QH/customFields/99-21?fields=name,id,bundle(id,name,values(isResolved,name))
+  // Fetch project to get field types.
+  const project: IssueProjectCustomFields = await axios
+    .get(`${host}api/admin/projects/${issue.project.shortName}?fields=shortName,customFields(id,fieldType)`, config)
+    .then((response) => {
+      return response.data;
+    });
 
-  // TODO: Ask the user to select a status, update the issue in youtrack.
+  // Loop through project custom fields to find the first state field.
+  const stateProjectCustomFieldId: string = project.customFields.find(
+    (field) => field.$type === 'StateProjectCustomField'
+  ).id;
+
+  if (!stateProjectCustomFieldId) {
+    vscode.window.showErrorMessage(`Could not find a state field `);
+  }
+
+  // Get list of statuses
+  const statuses: CustomFieldStatus = await axios
+    .get(
+      `${host}api/admin/projects/${issue.project.shortName}/customFields/${stateProjectCustomFieldId}?fields=name,id,bundle(id,name,values(isResolved,name))`,
+      config
+    )
+    .then((response) => {
+      return response.data;
+    });
+
+  const statusArray: Array<vscode.QuickPickItem> = statuses.bundle.values.map((value) => {
+    return { label: value.name };
+  });
+
+  // Ask the user to select a status, update the issue in youtrack.
+  const result = await vscode.window.showQuickPick(statusArray, {
+    onDidSelectItem: (item) => vscode.window.showInformationMessage(`Focus: ${item}`),
+  });
+
+  //   const updatedIssue = await axios
+  //   .post(
+  // 	`${host}api/admin/projects/${issue.project.shortName}/customFields/${stateProjectCustomFieldId}?fields=name,id,bundle(id,name,values(isResolved,name))`,
+  // 	config
+  //   )
+  //   .then((response) => {
+  // 	return response.data;
+  //   });
 
   vscode.window.showInformationMessage(`NOT IMPLEMENTED update status ${issueId}`);
 };
