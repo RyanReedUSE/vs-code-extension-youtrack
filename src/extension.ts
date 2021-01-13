@@ -24,7 +24,6 @@ export function activate(context: vscode.ExtensionContext) {
       'vscode.open',
       vscode.Uri.parse(`${vscode.workspace.getConfiguration('youtrack').get('host')}newIssue`)
     );
-    vscode.window.showInformationMessage(`NOT IMPLEMENTED: Successfully called add issue.`);
   });
 
   // Register Current Issues Add Issue

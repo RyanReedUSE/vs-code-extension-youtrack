@@ -1,5 +1,4 @@
 /*eslint no-octal-escape: "error"*/
-import axios from 'axios';
 import * as vscode from 'vscode';
 import { getNonce } from '../getNonce';
 import { createBranch, fetchIssueData, openUrl, updateIssueStatus } from '../utils';
@@ -44,9 +43,10 @@ export class ViewIssuePanel {
 
     ViewIssuePanel.currentPanel = new ViewIssuePanel(panel, extensionUri, issueData);
 
-    setTimeout(() => {
-      vscode.commands.executeCommand('workbench.action.webview.openDeveloperTools');
-    }, 500);
+    // Open Dev Tools With Each Load
+    // setTimeout(() => {
+    //   vscode.commands.executeCommand('workbench.action.webview.openDeveloperTools');
+    // }, 500);
   }
 
   public static kill() {
