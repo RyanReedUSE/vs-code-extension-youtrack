@@ -50,12 +50,10 @@ export async function getCurrentIssues(context: vscode.ExtensionContext): Promis
             youtrackPinIssueId
           );
         });
-        console.log(issuesResponse);
         return issuesResponse;
       }
     })
     .catch((err) => {
-      console.log(err);
       return [];
     });
 

@@ -28,7 +28,6 @@ export class currentIssuesProvider implements vscode.TreeDataProvider<Issue> {
    * Fetch current YouTrack issues
    */
   async getChildren(element?: Issue): Promise<Issue[]> {
-    console.log(JSON.stringify(getCurrentIssues(this.context)));
     return await getCurrentIssues(this.context);
   }
 }
