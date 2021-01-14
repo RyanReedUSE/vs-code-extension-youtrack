@@ -58,8 +58,6 @@ export default class IssuePreview extends React.Component<IIssueProps> {
   private renderCustomFields = () => {
     const { issueData } = this.props;
 
-    console.log(issueData);
-
     return issueData.customFields.map((field) => {
       return (
         <div key={field.name}>

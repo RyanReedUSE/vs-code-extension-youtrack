@@ -1,7 +1,11 @@
 /*eslint no-octal-escape: "error"*/
 import * as vscode from 'vscode';
+import { createBranch } from '../data/createBranch';
+import { fetchIssueData } from '../data/fetchIssueData';
+import { updateIssueStatus } from '../data/updateIssueStatus';
 import { getNonce } from '../getNonce';
-import { createBranch, fetchIssueData, openUrl, updateIssueStatus } from '../utils';
+import { openUrl } from '../utils';
+
 export class ViewIssuePanel {
   /**
    * Track the currently panel. Only allow a single panel to exist at a time.

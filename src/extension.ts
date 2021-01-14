@@ -1,6 +1,7 @@
 'use strict';
 import * as vscode from 'vscode';
-import { currentIssuesProvider, Issue } from './currentIssues';
+import { currentIssuesProvider } from './currentIssues';
+import { Issue } from './Issue';
 import { ViewIssuePanel } from './view/ViewIssuePanel';
 
 let currentIssueStatusBar: vscode.StatusBarItem;
