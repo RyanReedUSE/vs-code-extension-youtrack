@@ -67,21 +67,21 @@
         }
       },
       {
+        "command": "youtrack.viewIssue",
+        "title": "View Issue",
+        "category": "YouTrack",
+        "icon": {
+          "light": "resources/light/preview.svg",
+          "dark": "resources/dark/preview.svg"
+        }
+      },
+      {
         "command": "youtrack.currentIssues.refresh",
         "title": "Refresh",
         "category": "YouTrack",
         "icon": {
           "light": "resources/light/refresh.svg",
           "dark": "resources/dark/refresh.svg"
-        }
-      },
-      {
-        "command": "youtrack.currentIssues.view",
-        "title": "View Issue",
-        "category": "YouTrack",
-        "icon": {
-          "light": "resources/light/preview.svg",
-          "dark": "resources/dark/preview.svg"
         }
       },
       {
@@ -115,6 +115,12 @@
         "command": "youtrack.currentIssues.addTime",
         "title": "Add Time",
         "category": "YouTrack"
+      },
+      {
+        "command": "youtrack.searchIssues.selectSavedSearches",
+        "title": "Select Saved Searches",
+        "category": "YouTrack",
+        "icon": "$(search)"
       }
     ],
     "menus": {
@@ -138,6 +144,11 @@
         {
           "command": "youtrack.configureSettings",
           "when": "view == currentIssues || view == searchIssues",
+          "group": "navigation"
+        },
+        {
+          "command": "youtrack.searchIssues.selectSavedSearches",
+          "when": "view == searchIssues",
           "group": "navigation"
         }
       ],
@@ -191,7 +202,11 @@
     "viewsWelcome": [
       {
         "view": "currentIssues",
-        "contents": "No search results. Ensure you have the settings configured correctly. \n\n[Configure Settings](command:youtrack.configureSettings)"
+        "contents": "No results yet.\n\n Ensure you have the settings configured correctly. \n\n[Configure Settings](command:youtrack.configureSettings)"
+      },
+      {
+        "view": "searchIssues",
+        "contents": "No results yet.\n\n Ensure you have the settings configured correctly. \n\n[Configure Settings](command:youtrack.configureSettings)"
       }
     ]
   },

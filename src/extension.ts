@@ -1,6 +1,7 @@
 'use strict';
 import * as vscode from 'vscode';
 import { currentIssuesProvider } from './currentIssues';
+import { searchIssuesProvider } from './searchIssues';
 import { Issue } from './Issue';
 import { ViewIssuePanel } from './view/ViewIssuePanel';
 
@@ -10,14 +11,21 @@ export function activate(context: vscode.ExtensionContext) {
   // Register Current Issues Provider `window.registerTreeDataProvider`
   const _currentIssuesProvider = new currentIssuesProvider(context);
   vscode.window.registerTreeDataProvider('currentIssues', _currentIssuesProvider);
-  vscode.workspace.textDocuments;
-  // Register Current Issues Configure Settings
-  vscode.commands.registerCommand('youtrack.configureSettings', () =>
-    vscode.commands.executeCommand(`workbench.action.openSettings`, `youtrack`)
-  );
 
   // Register Current Issues Refresh
   vscode.commands.registerCommand('youtrack.currentIssues.refresh', () => _currentIssuesProvider.refresh());
+
+  // Register Search Issues Provider `window.registerTreeDataProvider`
+  const _searchIssuesProvider = new searchIssuesProvider(context);
+  vscode.window.registerTreeDataProvider('searchIssues', _searchIssuesProvider);
+
+  // Register workspace Issues Refresh
+  vscode.commands.registerCommand('youtrack.searchIssues.refresh', () => _searchIssuesProvider.refresh());
+
+  // Register Search Issues Configure Settings
+  vscode.commands.registerCommand('youtrack.configureSettings', () =>
+    vscode.commands.executeCommand(`workbench.action.openSettings`, `youtrack`)
+  );
 
   // Register Current Issues Add Issue
   vscode.commands.registerCommand('youtrack.addIssue', () => {
@@ -36,16 +44,16 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.window.showInformationMessage(`Opened issue in browser.`);
   });
 
-  // Register Current Issues View
+  // Register Open Issue by Id
   vscode.commands.registerCommand('youtrack.openIssueById', async () => {
     const result = await vscode.window.showInputBox({
       placeHolder: 'Enter YouTrack Issue Id (For example: YT-123)',
     });
-    vscode.commands.executeCommand('youtrack.currentIssues.view', undefined, result);
+    vscode.commands.executeCommand('youtrack.viewIssue', undefined, result);
   });
 
   // Register Current Issues View
-  vscode.commands.registerCommand('youtrack.currentIssues.view', async (node?: Issue, issueId?: string) => {
+  vscode.commands.registerCommand('youtrack.viewIssue', async (node?: Issue, issueId?: string) => {
     const selectedIssueId = node?.id || issueId;
     ViewIssuePanel.kill();
     ViewIssuePanel.createOrShow(context.extensionUri, selectedIssueId);
@@ -103,7 +111,7 @@ async function updateStatusBarItem(id?: string, summary?: string): Promise<void>
     currentIssueStatusBar.text = `$(tasklist) ${id} ${summary?.substring(0, 20)}`;
     currentIssueStatusBar.tooltip = summary;
     currentIssueStatusBar.command = {
-      command: 'youtrack.currentIssues.view',
+      command: 'youtrack.viewIssue',
       title: '',
       arguments: [undefined, id],
     };

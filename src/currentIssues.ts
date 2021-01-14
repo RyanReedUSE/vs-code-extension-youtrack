@@ -1,5 +1,6 @@
+import * as moment from 'moment';
 import * as vscode from 'vscode';
-import { getCurrentIssues } from './data/getCurrentIssues';
+import { searchIssues } from './data/searchIssues';
 import { Issue } from './Issue';
 
 export class currentIssuesProvider implements vscode.TreeDataProvider<Issue> {
@@ -27,7 +28,27 @@ export class currentIssuesProvider implements vscode.TreeDataProvider<Issue> {
   /**
    * Fetch current YouTrack issues
    */
-  async getChildren(element?: Issue): Promise<Issue[]> {
-    return await getCurrentIssues(this.context);
+  async getChildren(element?: Issue): Promise<Issue[]> | null {
+    const youtrackPinIssueId = this.context.globalState.get('youtrackPinIssueId') as string;
+    const issues = await searchIssues(this.context);
+
+    const issuesResponse = issues.map((issue) => {
+      return new Issue(
+        issue.idReadable,
+        issue.idReadable,
+        issue.summary,
+        issue.reporter.fullName,
+        moment(issue.created).format('DD MMM YYYY'),
+        vscode.TreeItemCollapsibleState.None,
+        {
+          command: 'youtrack.viewIssue',
+          title: '',
+          arguments: [undefined, issue.idReadable],
+        },
+        youtrackPinIssueId
+      );
+    });
+
+    return issuesResponse;
   }
 }
