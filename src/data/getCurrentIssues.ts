@@ -1,17 +1,17 @@
 import * as vscode from 'vscode';
 import axios from 'axios';
 import { Issue } from '../Issue';
-import moment from 'moment';
+import * as moment from 'moment';
 
 /**
  * Given the YouTrack Extension Settings, returns an array of current issues.
  */
-export async function getCurrentIssues(): Promise<Issue[]> {
+export async function getCurrentIssues(context: vscode.ExtensionContext): Promise<Issue[]> {
   // Get YouTrack Extension Settings
   const host = vscode.workspace.getConfiguration('youtrack').get('host');
   const permanentToken = vscode.workspace.getConfiguration('youtrack').get('permanentToken');
   const currentIssuesQuery = vscode.workspace.getConfiguration('youtrack').get('currentIssuesQuery');
-  const youtrackPinIssueId = this.context.globalState.get('youtrackPinIssueId') as string;
+  const youtrackPinIssueId = context.globalState.get('youtrackPinIssueId') as string;
 
   // Validate that the user has all required settings
   if (!host) {
@@ -50,10 +50,12 @@ export async function getCurrentIssues(): Promise<Issue[]> {
             youtrackPinIssueId
           );
         });
+        console.log(issuesResponse);
         return issuesResponse;
       }
     })
     .catch((err) => {
+      console.log(err);
       return [];
     });
 
