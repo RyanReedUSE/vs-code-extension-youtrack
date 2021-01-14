@@ -23,7 +23,7 @@
         {
           "id": "youtrack-issues",
           "title": "YouTrack Issues",
-          "icon": "media/dep.svg"
+          "icon": "media/youtrack.svg"
         }
       ]
     },
@@ -43,6 +43,29 @@
       ]
     },
     "commands": [
+      {
+        "command": "youtrack.openIssueById",
+        "title": "Open Issue By Id",
+        "category": "YouTrack"
+      },
+      {
+        "command": "youtrack.addIssue",
+        "title": "Add Issue",
+        "category": "YouTrack",
+        "icon": {
+          "light": "resources/light/add.svg",
+          "dark": "resources/dark/add.svg"
+        }
+      },
+      {
+        "command": "youtrack.configureSettings",
+        "title": "Configure Settings",
+        "category": "YouTrack",
+        "icon": {
+          "light": "resources/light/gear.svg",
+          "dark": "resources/dark/gear.svg"
+        }
+      },
       {
         "command": "youtrack.currentIssues.refresh",
         "title": "Refresh",
@@ -80,15 +103,6 @@
         }
       },
       {
-        "command": "youtrack.currentIssues.addIssue",
-        "title": "Add Issue",
-        "category": "YouTrack",
-        "icon": {
-          "light": "resources/light/add.svg",
-          "dark": "resources/dark/add.svg"
-        }
-      },
-      {
         "command": "youtrack.currentIssues.editIssue",
         "title": "Edit Issue Online",
         "category": "YouTrack",
@@ -101,20 +115,6 @@
         "command": "youtrack.currentIssues.addTime",
         "title": "Add Time",
         "category": "YouTrack"
-      },
-      {
-        "command": "youtrack.currentIssues.configureSettings",
-        "title": "Configure Settings",
-        "category": "YouTrack",
-        "icon": {
-          "light": "resources/light/gear.svg",
-          "dark": "resources/dark/gear.svg"
-        }
-      },
-      {
-        "command": "youtrack.openIssueById",
-        "title": "Open Issue By Id",
-        "category": "YouTrack"
       }
     ],
     "menus": {
@@ -126,18 +126,18 @@
           "group": "navigation"
         },
         {
-          "command": "youtrack.currentIssues.addIssue",
-          "when": "view == currentIssues",
-          "group": "navigation"
-        },
-        {
           "command": "youtrack.currentIssues.unpin",
           "when": "view == currentIssues",
           "group": "navigation"
         },
         {
-          "command": "youtrack.currentIssues.configureSettings",
-          "when": "view == currentIssues",
+          "command": "youtrack.addIssue",
+          "when": "view == currentIssues || view == searchIssues",
+          "group": "navigation"
+        },
+        {
+          "command": "youtrack.configureSettings",
+          "when": "view == currentIssues || view == searchIssues",
           "group": "navigation"
         }
       ],
@@ -176,6 +176,11 @@
           "default": "Assignee: me -Resolved order by: created",
           "description": "The filter to be used on the current issues query. Typically, this would be set to the current user's assigned issues. However, it can been user defined by the user if they want to adjust it to include certain query parameters. Default: Assignee: me -Unresolved"
         },
+        "youtrack.searchIssuesGroupByStatus": {
+          "type": "boolean",
+          "default": true,
+          "description": "The option to view issues in the search issues tree view grouped by status. Default: true"
+        },
         "youtrack.maxResponseCount": {
           "type": "number",
           "default": 20,
@@ -186,7 +191,7 @@
     "viewsWelcome": [
       {
         "view": "currentIssues",
-        "contents": "No search results. Ensure you have the settings configured correctly. \n\n[Configure Settings](command:youtrack.currentIssues.configureSettings)"
+        "contents": "No search results. Ensure you have the settings configured correctly. \n\n[Configure Settings](command:youtrack.configureSettings)"
       }
     ]
   },

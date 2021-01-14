@@ -12,7 +12,7 @@ export function activate(context: vscode.ExtensionContext) {
   vscode.window.registerTreeDataProvider('currentIssues', _currentIssuesProvider);
   vscode.workspace.textDocuments;
   // Register Current Issues Configure Settings
-  vscode.commands.registerCommand('youtrack.currentIssues.configureSettings', () =>
+  vscode.commands.registerCommand('youtrack.configureSettings', () =>
     vscode.commands.executeCommand(`workbench.action.openSettings`, `youtrack`)
   );
 
@@ -20,7 +20,7 @@ export function activate(context: vscode.ExtensionContext) {
   vscode.commands.registerCommand('youtrack.currentIssues.refresh', () => _currentIssuesProvider.refresh());
 
   // Register Current Issues Add Issue
-  vscode.commands.registerCommand('youtrack.currentIssues.addIssue', () => {
+  vscode.commands.registerCommand('youtrack.addIssue', () => {
     vscode.commands.executeCommand(
       'vscode.open',
       vscode.Uri.parse(`${vscode.workspace.getConfiguration('youtrack').get('host')}newIssue`)

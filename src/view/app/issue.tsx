@@ -36,7 +36,7 @@ export default class IssuePreview extends React.Component<IIssueProps> {
   private renderTitleBlock = () => {
     return (
       <div className="grid">
-        <h1 className="">
+        <h1>
           <b>{this.props.issueData.idReadable}</b> {this.props.issueData.summary}
         </h1>
         <p className="text-gray-400">
