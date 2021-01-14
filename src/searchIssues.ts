@@ -2,6 +2,8 @@ import * as moment from 'moment';
 import * as vscode from 'vscode';
 import { searchIssues } from './data/searchIssues';
 import { Issue } from './Issue';
+import { groupBy } from 'lodash';
+import { SearchIssue } from './data/searchIssuesModel';
 
 export class searchIssuesProvider implements vscode.TreeDataProvider<Issue> {
   constructor(context: vscode.ExtensionContext) {
@@ -30,7 +32,27 @@ export class searchIssuesProvider implements vscode.TreeDataProvider<Issue> {
    */
   async getChildren(element?: Issue): Promise<Issue[]> {
     const youtrackPinIssueId = this.context.globalState.get('youtrackPinIssueId') as string;
+    const searchIssuesGroupByStatus = vscode.workspace
+      .getConfiguration('youtrack')
+      .get('searchIssuesGroupByStatus') as boolean;
     const issues = await searchIssues(this.context);
+
+    if (searchIssuesGroupByStatus) {
+      const issuesTransformed = issues.map((issue: SearchIssue) => {
+        const issueStatus = issue.customFields.find((field) => field.$type === 'StateIssueCustomField').value;
+
+        return {
+          ...issue,
+          status: issueStatus.name,
+          ordinal: issueStatus.ordinal,
+        };
+      });
+
+      // TODO: Order issues by ordinal.
+
+      // TODO: Group Issues
+      console.log(groupBy(issuesTransformed, 'status'));
+    }
 
     const issuesResponse = issues.map((issue) => {
       return new Issue(

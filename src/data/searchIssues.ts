@@ -11,7 +11,6 @@ export async function searchIssues(context: vscode.ExtensionContext, query?: str
   const permanentToken = vscode.workspace.getConfiguration('youtrack').get('permanentToken');
   const currentIssuesQuery = vscode.workspace.getConfiguration('youtrack').get('currentIssuesQuery');
   const maxResponseCount = vscode.workspace.getConfiguration('youtrack').get('maxResponseCount');
-  const youtrackPinIssueId = context.globalState.get('youtrackPinIssueId') as string;
 
   // Validate that the user has all required settings
   if (!host) {

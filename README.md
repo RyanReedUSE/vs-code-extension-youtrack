@@ -1,51 +1,25 @@
-# Views & View Containers
+# YouTrack Issues VS Code Extension
 
-This sample demonstrates how to implement and contribute a tree view in VS Code. This includes:
+# Why Use This One?
 
-- Contributing views and view containers.
-- Contributing actions in various location of the view.
-- Implementing the tree data provider for the view.
-- Creating and working with the view.
+# Features
 
-This sample provides following views
+- View YouTrack issues within VS Code.
+- Update issue status.
+- Create a branch from an issue
 
-- Node dependencies view
-- Ftp file explorer view
+# Settings
 
-Following example shows Node dependencies view in Package Explorer View container.
+Current Issues Query `string`
 
-![Package Explorer](./resources/package-explorer.png)
+Host `string`
 
-## VS Code API
+Permanent Token `string`
 
-This sample uses following contribution points, activation events and APIs
+Max Response Count `number`
 
-### Contribution Points
+Search Issues Group By Status: `boolean`
 
-- `views`
-- `viewsContainers`
-- `menu`
-  - `view/title`
-  - `view/item/context`
+## Notes
 
-### Activation Events
-
-- `onView:${viewId}`
-
-### APIs
-
-- `window.createTreeView`
-- `window.registerTreeDataProvider`
-- `TreeView`
-- `TreeDataProvider`
-
-Refer to [Usage](./USAGE.md) document for more details.
-
-## Running the Sample
-
-- Open this example in VS Code Insiders
-- `npm install`
-- `npm run watch`
-- `F5` to start debugging
-- Node dependencies view is shown in Package explorer view container in Activity bar.
-- FTP file explorer view should be shown in Explorer
+This product is not sponsored or endorsed by YouTrack or JetBrains. It's simply a VS Code Extension designed to work with the YouTrack REST API to provide YouTrack users with another option to view their issues.
