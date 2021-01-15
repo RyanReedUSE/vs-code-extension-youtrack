@@ -222,10 +222,15 @@
           "default": true,
           "description": "The option to view issues in the search issues tree view grouped by status. Default: true"
         },
-        "youtrack.maxResponseCount": {
+        "youtrack.currentIssuesMaxResponseCount": {
           "type": "number",
           "default": 20,
           "description": "The maximum number of entries that are returned in the response. Default: 20"
+        },
+        "youtrack.searchIssuesMaxResponseCount": {
+          "type": "number",
+          "default": 100,
+          "description": "The maximum number of entries that are returned in the response. Default: 100"
         }
       }
     },

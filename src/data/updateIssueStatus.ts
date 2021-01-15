@@ -80,9 +80,7 @@ export const updateIssueStatus = async (issueId: string) => {
   });
 
   // Ask the user to select a status, update the issue in youtrack.
-  const result = await vscode.window.showQuickPick(statusArray, {
-    // onDidSelectItem: (item) => vscode.window.showInformationMessage(`Focus: ${item}`),
-  });
+  const result = await vscode.window.showQuickPick(statusArray, {});
 
   const updatedStatus = orderedStatuses.find(
     (status) => status.name === result.label.substring(result.label.indexOf(' ') + 1, result.label.length)

@@ -21,7 +21,7 @@ export const createBranch = async (branchName: string) => {
 
   const result = await vscode.window.showInputBox({
     value: sanitize(branchName).substring(0, 28),
-    prompt: "Please provide or confirm a new branch name (Press 'Enter' to confirm)",
+    prompt: 'Please provide or confirm a new branch name.',
     placeHolder: 'Enter YouTrack Issue Id (For example: YT-123)',
     validateInput: (name: string) => {
       const validateName = new RegExp(branchValidationRegex);

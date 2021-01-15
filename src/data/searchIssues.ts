@@ -5,12 +5,16 @@ import { SearchIssue } from './searchIssuesModel';
 /**
  * Given the YouTrack Extension Settings, returns an array of current issues.
  */
-export async function searchIssues(context: vscode.ExtensionContext, query?: string): Promise<SearchIssue[]> {
+export async function searchIssues(
+  context: vscode.ExtensionContext,
+  query?: string,
+  responseCount?: number
+): Promise<SearchIssue[]> {
   // Get YouTrack Extension Settings
   const host = vscode.workspace.getConfiguration('youtrack').get('host');
   const permanentToken = vscode.workspace.getConfiguration('youtrack').get('permanentToken');
   const currentIssuesQuery = vscode.workspace.getConfiguration('youtrack').get('currentIssuesQuery');
-  const maxResponseCount = vscode.workspace.getConfiguration('youtrack').get('maxResponseCount');
+  const maxResponseCount = vscode.workspace.getConfiguration('youtrack').get('currentIssuesMaxResponseCount');
 
   // Validate that the user has all required settings
   if (!host) {
@@ -26,7 +30,7 @@ export async function searchIssues(context: vscode.ExtensionContext, query?: str
   const searchQuery = query ? query : currentIssuesQuery;
 
   // Have a minimum for the response count from the user.
-  const responseCount = !maxResponseCount || maxResponseCount === 0 ? 1 : maxResponseCount;
+  const responseCountToFetch = responseCount ? responseCount : maxResponseCount;
 
   const config = {
     headers: { Authorization: `Bearer ${permanentToken}` },
@@ -34,7 +38,7 @@ export async function searchIssues(context: vscode.ExtensionContext, query?: str
 
   const issues: Array<SearchIssue> = await axios
     .get(
-      `${host}api/issues?fields=idReadable,summary,resolved,reporter(login,fullName),created,customFields(name,id,fieldType,value(id,name,login,fullName,ordinal))&$top=${responseCount}&query=${searchQuery}`,
+      `${host}api/issues?fields=idReadable,summary,resolved,reporter(login,fullName),created,customFields(name,id,fieldType,value(id,name,login,fullName,ordinal))&$top=${responseCountToFetch}&query=${searchQuery}`,
       config
     )
     .then((response) => {

@@ -31,7 +31,11 @@ export class searchIssuesProvider implements vscode.TreeDataProvider<TreeItem> {
     const searchIssuesGroupByStatus = vscode.workspace
       .getConfiguration('youtrack')
       .get('searchIssuesGroupByStatus') as boolean;
-    const issues = await searchIssues(this.context);
+    const issues = await searchIssues(
+      this.context,
+      this.context.globalState.get('savedSearchQuery'),
+      this.context.globalState.get('searchIssuesMaxResponseCount')
+    );
 
     if (searchIssuesGroupByStatus) {
       const issuesTransformed: Array<IssueTransformed> = issues.map((issue: SearchIssue) => {

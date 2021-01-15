@@ -4,6 +4,7 @@ import { currentIssuesProvider } from './currentIssues';
 import { searchIssuesProvider } from './searchIssues';
 import { Issue } from './Issue';
 import { ViewIssuePanel } from './view/ViewIssuePanel';
+import { fetchSavedSearches } from './data/fetchSavedSearches';
 
 let currentIssueStatusBar: vscode.StatusBarItem;
 
@@ -93,6 +94,11 @@ export function activate(context: vscode.ExtensionContext) {
     await updateStatusBarItem();
     // Refresh the Current Issue List to Update the Pin Icon
     _currentIssuesProvider.refresh();
+  });
+
+  // Register Current Issues Add Issue
+  vscode.commands.registerCommand('youtrack.searchIssues.selectSavedSearches', () => {
+    fetchSavedSearches(context);
   });
 
   // Register Current Issues Add Time
