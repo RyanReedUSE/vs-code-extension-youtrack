@@ -21,31 +21,20 @@ export class searchIssuesProvider implements vscode.TreeDataProvider<TreeItem> {
   readonly onDidChangeTreeData: vscode.Event<TreeItem | undefined | null | void> = this._onDidChangeTreeData.event;
 
   async refresh(): Promise<void> {
+    this.data = await this.getData();
+    console.log(this.data);
     await this.getChildren();
     this._onDidChangeTreeData.fire();
   }
 
-  getTreeItem(element: TreeItem): vscode.TreeItem {
-    return element;
-  }
-
-  // getChildren(element?: TreeItem): Thenable<TreeItem[]> {
-  //   if (element) {
-  //     return Promise.resolve(element.children);
-  //   } else {
-  //     return Promise.resolve(this.data);
-  //   }
-  // }
-
-  /**
-   * Search YouTrack issues
-   */
-  async getChildren(element?: TreeItem): Promise<TreeItem[]> {
+  async getData(): Promise<Array<TreeItem>> {
     const youtrackPinIssueId = this.context.globalState.get('youtrackPinIssueId') as string;
     const searchIssuesGroupByStatus = vscode.workspace
       .getConfiguration('youtrack')
       .get('searchIssuesGroupByStatus') as boolean;
     const issues = await searchIssues(this.context);
+
+    console.log('get data called');
 
     if (searchIssuesGroupByStatus) {
       const issuesTransformed: Array<IssueTransformed> = issues.map((issue: SearchIssue) => {
@@ -89,31 +78,6 @@ export class searchIssuesProvider implements vscode.TreeDataProvider<TreeItem> {
         console.log(treeItem);
         return treeItem;
       });
-
-      // console.log(issuesResponse);
-
-      //   // Loop through children and push them to issue.
-      //   const group = issuesGrouped[key].map((issue) => {
-      //     issuesResponse.push(
-      //       new Issue(
-      //         issue.idReadable,
-      //         issue.idReadable,
-      //         issue.summary,
-      //         issue.reporter.fullName,
-      //         moment(issue.created).format('DD MMM YYYY'),
-      //         vscode.TreeItemCollapsibleState.None,
-      //         {
-      //           command: 'youtrack.viewIssue',
-      //           title: '',
-      //           arguments: [undefined, issue.idReadable],
-      //         },
-      //         youtrackPinIssueId
-      //       )
-      //     );
-      //   });
-      //   issuesResponse.push(...group);
-      // });
-
       return issuesResponse;
     } else {
       const issuesResponse = issues.map((issue) => {
@@ -138,12 +102,31 @@ export class searchIssuesProvider implements vscode.TreeDataProvider<TreeItem> {
       return issuesResponse;
     }
   }
+
+  getTreeItem(element: TreeItem): vscode.TreeItem {
+    return element;
+  }
+
+  getChildren(element?: TreeItem): Promise<TreeItem[]> {
+    if (element) {
+      return Promise.resolve(element.children);
+    } else {
+      return Promise.resolve(this.data);
+    }
+  }
+
+  /**
+   * Search YouTrack issues
+   */
+  // async getChildren(element?: TreeItem): Promise<TreeItem[]> {
+
+  // }
 }
 
 class TreeItem extends Issue {
-  children: TreeItem[] | Issue[] | undefined;
+  children: TreeItem[] | undefined;
 
-  constructor(issue: Issue, children?: TreeItem[] | Issue[]) {
+  constructor(issue: Issue, children?: TreeItem[]) {
     super(
       issue.label,
       issue.id,

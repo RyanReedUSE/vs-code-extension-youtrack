@@ -1,9 +1,12 @@
 {
   "name": "vs-code-extension-youtrack",
   "displayName": "YouTrack Issues",
-  "description": "An extension for viewing YouTrack issues within VS Code",
+  "description": "An extension for viewing and managing YouTrack issues within VS Code.",
   "version": "0.1.1",
   "publisher": "huddleboards",
+  "author": {
+    "name": "huddleboards"
+  },
   "enableProposedApi": true,
   "engines": {
     "vscode": "^1.52.0"
@@ -20,6 +23,9 @@
   ],
   "galleryBanner": {
     "color": "#4c42ff"
+  },
+  "bugs": {
+    "email": "huddleboards@gmail.com"
   },
   "activationEvents": [
     "onView:currentIssues",

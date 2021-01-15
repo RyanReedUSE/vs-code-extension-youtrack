@@ -17,6 +17,7 @@ export function activate(context: vscode.ExtensionContext) {
 
   // Register Search Issues Provider `window.registerTreeDataProvider`
   const _searchIssuesProvider = new searchIssuesProvider(context);
+  _searchIssuesProvider.refresh();
   vscode.window.registerTreeDataProvider('searchIssues', _searchIssuesProvider);
 
   // Register workspace Issues Refresh
