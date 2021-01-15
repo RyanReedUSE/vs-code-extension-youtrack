@@ -86,6 +86,18 @@ export function activate(context: vscode.ExtensionContext) {
     _searchIssuesProvider.refresh();
   });
 
+  // Register Current Item Pin
+  vscode.commands.registerCommand('youtrack.pin', async (node: Issue) => {
+    // Set Pinned Issue to Global Storage
+    context.globalState.update('youtrackPinIssueId', node.id);
+    context.globalState.update('youtrackPinIssueSummary', node.summary);
+    // Update Status Bar With Issue
+    await updateStatusBarItem(node.id, node.summary);
+    // Refresh the Current and Search Issue List to Update the Pin Icon
+    _currentIssuesProvider.refresh();
+    _searchIssuesProvider.refresh();
+  });
+
   //Register Current Item Unpin
   vscode.commands.registerCommand('youtrack.unpin', async (node: Issue) => {
     // Clear Pinned Issue From Global Storage
