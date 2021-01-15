@@ -63,6 +63,7 @@ export class searchIssuesProvider implements vscode.TreeDataProvider<TreeItem> {
               issue.reporter.fullName,
               moment(issue.created).format('DD MMM YYYY'),
               vscode.TreeItemCollapsibleState.None,
+              issue.resolved,
               {
                 command: 'youtrack.viewIssue',
                 title: '',
@@ -72,9 +73,17 @@ export class searchIssuesProvider implements vscode.TreeDataProvider<TreeItem> {
             )
           );
         });
-        // Push key to Issue Repo
+
         const treeItem = new TreeItem(
-          new Issue(key, key, children.length.toString(), ' ', ' ', vscode.TreeItemCollapsibleState.Collapsed),
+          new Issue(
+            key,
+            key,
+            children.length.toString(),
+            ' ',
+            ' ',
+            vscode.TreeItemCollapsibleState.Collapsed,
+            undefined
+          ),
           children
         );
         return treeItem;
@@ -90,6 +99,7 @@ export class searchIssuesProvider implements vscode.TreeDataProvider<TreeItem> {
             issue.reporter.fullName,
             moment(issue.created).format('DD MMM YYYY'),
             vscode.TreeItemCollapsibleState.None,
+            issue.resolved,
             {
               command: 'youtrack.viewIssue',
               title: '',
@@ -128,6 +138,7 @@ class TreeItem extends Issue {
       issue.createdBy,
       issue.createdOn,
       children === undefined ? vscode.TreeItemCollapsibleState.None : vscode.TreeItemCollapsibleState.Expanded,
+      issue.resolved,
       issue.command,
       issue.youtrackPinIssueId
     ),

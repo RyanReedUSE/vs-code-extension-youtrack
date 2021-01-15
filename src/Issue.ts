@@ -9,6 +9,7 @@ export class Issue extends vscode.TreeItem {
     public readonly createdBy: string,
     public readonly createdOn: string,
     public readonly collapsibleState: vscode.TreeItemCollapsibleState,
+    public readonly resolved?: string,
     public readonly command?: vscode.Command,
     public readonly youtrackPinIssueId?: string
   ) {
@@ -19,20 +20,24 @@ export class Issue extends vscode.TreeItem {
     this.description = this.summary;
   }
 
-  // TODO: Update the icon to match the resolved state, empty square for unresolved, checkmark for resolved
+  // Match the icon to the resolved state, empty square for unresolved, checkmark for resolved
 
   iconPath = this.command
     ? {
         light:
           this.id === this.youtrackPinIssueId
             ? path.join(__filename, '..', '..', 'resources', 'light', 'pinned.svg')
-            : path.join(__filename, '..', '..', 'resources', 'light', 'go-to-file.svg'),
+            : this.resolved
+            ? path.join(__filename, '..', '..', 'resources', 'light', 'check.svg')
+            : path.join(__filename, '..', '..', 'resources', 'light', 'square.svg'),
         dark:
           this.id === this.youtrackPinIssueId
             ? path.join(__filename, '..', '..', 'resources', 'dark', 'pinned.svg')
-            : path.join(__filename, '..', '..', 'resources', 'dark', 'go-to-file.svg'),
+            : this.resolved
+            ? path.join(__filename, '..', '..', 'resources', 'dark', 'check.svg')
+            : path.join(__filename, '..', '..', 'resources', 'dark', 'square.svg'),
       }
     : undefined;
 
-  contextValue = 'issue';
+  contextValue = this.command ? 'issue' : 'issue-group';
 }

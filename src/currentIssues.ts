@@ -40,6 +40,7 @@ export class currentIssuesProvider implements vscode.TreeDataProvider<Issue> {
         issue.reporter.fullName,
         moment(issue.created).format('DD MMM YYYY'),
         vscode.TreeItemCollapsibleState.None,
+        issue.resolved,
         {
           command: 'youtrack.viewIssue',
           title: '',

@@ -101,7 +101,7 @@
         }
       },
       {
-        "command": "youtrack.currentIssues.pin",
+        "command": "youtrack.pin",
         "title": "Pin Issue",
         "category": "YouTrack",
         "icon": {
@@ -110,7 +110,7 @@
         }
       },
       {
-        "command": "youtrack.currentIssues.unpin",
+        "command": "youtrack.unpin",
         "title": "Unpin Issue",
         "category": "YouTrack",
         "icon": {
@@ -119,7 +119,7 @@
         }
       },
       {
-        "command": "youtrack.currentIssues.editIssue",
+        "command": "youtrack.editIssue",
         "title": "Edit Issue Online",
         "category": "YouTrack",
         "icon": {
@@ -128,9 +128,10 @@
         }
       },
       {
-        "command": "youtrack.currentIssues.addTime",
+        "command": "youtrack.addTime",
         "title": "Add Time",
-        "category": "YouTrack"
+        "category": "YouTrack",
+        "icon": "$(watch)"
       },
       {
         "command": "youtrack.searchIssues.selectSavedSearches",
@@ -157,7 +158,7 @@
           "group": "navigation"
         },
         {
-          "command": "youtrack.currentIssues.unpin",
+          "command": "youtrack.unpin",
           "when": "view == currentIssues",
           "group": "navigation"
         },
@@ -184,18 +185,19 @@
       ],
       "view/item/context": [
         {
-          "command": "youtrack.currentIssues.editIssue",
-          "when": "view == currentIssues && viewItem == issue",
+          "command": "youtrack.editIssue",
+          "when": "viewItem == issue",
           "group": "inline"
         },
         {
-          "command": "youtrack.currentIssues.pin",
-          "when": "view == currentIssues && viewItem == issue",
+          "command": "youtrack.pin",
+          "when": "viewItem == issue",
           "group": "inline"
         },
         {
-          "command": "youtrack.currentIssues.addTime",
-          "when": "view == currentIssues && viewItem == issue"
+          "command": "youtrack.addTime",
+          "when": "viewItem == issue",
+          "group": "inline"
         }
       ]
     },

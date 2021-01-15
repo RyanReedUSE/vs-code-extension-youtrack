@@ -38,7 +38,7 @@ export function activate(context: vscode.ExtensionContext) {
   });
 
   // Register Current Issues Add Issue
-  vscode.commands.registerCommand('youtrack.currentIssues.editIssue', (node: Issue) => {
+  vscode.commands.registerCommand('youtrack.editIssue', (node: Issue) => {
     vscode.commands.executeCommand(
       'vscode.open',
       vscode.Uri.parse(`${vscode.workspace.getConfiguration('youtrack').get('host')}issue/${node.id}`)
@@ -75,25 +75,27 @@ export function activate(context: vscode.ExtensionContext) {
   }
 
   // Register Current Item Pin
-  vscode.commands.registerCommand('youtrack.currentIssues.pin', async (node: Issue) => {
+  vscode.commands.registerCommand('youtrack.pin', async (node: Issue) => {
     // Set Pinned Issue to Global Storage
     context.globalState.update('youtrackPinIssueId', node.id);
     context.globalState.update('youtrackPinIssueSummary', node.summary);
     // Update Status Bar With Issue
     await updateStatusBarItem(node.id, node.summary);
-    // Refresh the Current Issue List to Update the Pin Icon
+    // Refresh the Current and Search Issue List to Update the Pin Icon
     _currentIssuesProvider.refresh();
+    _searchIssuesProvider.refresh();
   });
 
   //Register Current Item Unpin
-  vscode.commands.registerCommand('youtrack.currentIssues.unpin', async (node: Issue) => {
+  vscode.commands.registerCommand('youtrack.unpin', async (node: Issue) => {
     // Clear Pinned Issue From Global Storage
     context.globalState.update('youtrackPinIssueId', '');
     context.globalState.update('youtrackPinIssueSummary', '');
     // Clear Status Bar
     await updateStatusBarItem();
-    // Refresh the Current Issue List to Update the Pin Icon
+    // Refresh the Current and Search Issue List to Update the Pin Icon
     _currentIssuesProvider.refresh();
+    _searchIssuesProvider.refresh();
   });
 
   // Register Current Issues Add Issue
@@ -102,7 +104,7 @@ export function activate(context: vscode.ExtensionContext) {
   });
 
   // Register Current Issues Add Time
-  vscode.commands.registerCommand('youtrack.currentIssues.addTime', (node: Issue) => {
+  vscode.commands.registerCommand('youtrack.addTime', (node: Issue) => {
     vscode.window.showInformationMessage(`TODO: Implement Add Time to Given Card Feature. ${node.id}`);
   });
 }
