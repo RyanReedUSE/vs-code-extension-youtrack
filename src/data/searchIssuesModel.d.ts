@@ -20,3 +20,19 @@ export interface CustomField {
   id: string;
   $type: string;
 }
+
+export interface IssueTransformed {
+  status: string;
+  ordinal: number;
+  idReadable: string;
+  resolved?: any;
+  summary: string;
+  reporter: Reporter;
+  customFields: CustomField[];
+  created: any;
+  $type: string;
+}
+
+export interface IssueGrouped {
+  [key: string]: Array<IssueTransformed>;
+}

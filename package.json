@@ -1,9 +1,9 @@
 {
   "name": "vs-code-extension-youtrack",
-  "displayName": "VC Code Extension YouTrack",
+  "displayName": "YouTrack Issues",
   "description": "An extension for viewing YouTrack issues within VS Code",
-  "version": "0.0.1",
-  "publisher": "ryanreeduse",
+  "version": "0.1.1",
+  "publisher": "huddleboards",
   "enableProposedApi": true,
   "engines": {
     "vscode": "^1.52.0"
@@ -11,6 +11,16 @@
   "categories": [
     "Other"
   ],
+  "keywords": [
+    "tasks",
+    "project management",
+    "management",
+    "youtrack",
+    "jetbrains"
+  ],
+  "galleryBanner": {
+    "color": "#4c42ff"
+  },
   "activationEvents": [
     "onView:currentIssues",
     "onView:searchIssues",

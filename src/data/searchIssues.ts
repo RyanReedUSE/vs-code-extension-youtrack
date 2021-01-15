@@ -34,7 +34,7 @@ export async function searchIssues(context: vscode.ExtensionContext, query?: str
 
   const issues: Array<SearchIssue> = await axios
     .get(
-      `${host}api/issues?fields=idReadable,summary,resolved,reporter(login,fullName),created,customFields(name,id,fieldType,value(id,name,login,fullName))&$top=${responseCount}&query=${searchQuery}`,
+      `${host}api/issues?fields=idReadable,summary,resolved,reporter(login,fullName),created,customFields(name,id,fieldType,value(id,name,login,fullName,ordinal))&$top=${responseCount}&query=${searchQuery}`,
       config
     )
     .then((response) => {
