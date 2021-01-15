@@ -22,7 +22,6 @@ export class searchIssuesProvider implements vscode.TreeDataProvider<TreeItem> {
 
   async refresh(): Promise<void> {
     this.data = await this.getData();
-    console.log(this.data);
     await this.getChildren();
     this._onDidChangeTreeData.fire();
   }
@@ -33,8 +32,6 @@ export class searchIssuesProvider implements vscode.TreeDataProvider<TreeItem> {
       .getConfiguration('youtrack')
       .get('searchIssuesGroupByStatus') as boolean;
     const issues = await searchIssues(this.context);
-
-    console.log('get data called');
 
     if (searchIssuesGroupByStatus) {
       const issuesTransformed: Array<IssueTransformed> = issues.map((issue: SearchIssue) => {
@@ -53,29 +50,29 @@ export class searchIssuesProvider implements vscode.TreeDataProvider<TreeItem> {
       const issuesGrouped = groupBy(issuesOrdered, 'status') as IssueGrouped;
 
       const issuesResponse = Object.keys(issuesGrouped).map((key, index) => {
+        const children = issuesGrouped[key].map((issue) => {
+          return new TreeItem(
+            new Issue(
+              issue.idReadable,
+              issue.idReadable,
+              issue.summary,
+              issue.reporter.fullName,
+              moment(issue.created).format('DD MMM YYYY'),
+              vscode.TreeItemCollapsibleState.None,
+              {
+                command: 'youtrack.viewIssue',
+                title: '',
+                arguments: [undefined, issue.idReadable],
+              },
+              youtrackPinIssueId
+            )
+          );
+        });
         // Push key to Issue Repo
         const treeItem = new TreeItem(
-          new Issue(key, key, ' ', ' ', ' ', vscode.TreeItemCollapsibleState.Expanded),
-          issuesGrouped[key].map((issue) => {
-            return new TreeItem(
-              new Issue(
-                issue.idReadable,
-                issue.idReadable,
-                issue.summary,
-                issue.reporter.fullName,
-                moment(issue.created).format('DD MMM YYYY'),
-                vscode.TreeItemCollapsibleState.None,
-                {
-                  command: 'youtrack.viewIssue',
-                  title: '',
-                  arguments: [undefined, issue.idReadable],
-                },
-                youtrackPinIssueId
-              )
-            );
-          })
+          new Issue(key, key, children.length.toString(), ' ', ' ', vscode.TreeItemCollapsibleState.Collapsed),
+          children
         );
-        console.log(treeItem);
         return treeItem;
       });
       return issuesResponse;
@@ -114,13 +111,6 @@ export class searchIssuesProvider implements vscode.TreeDataProvider<TreeItem> {
       return Promise.resolve(this.data);
     }
   }
-
-  /**
-   * Search YouTrack issues
-   */
-  // async getChildren(element?: TreeItem): Promise<TreeItem[]> {
-
-  // }
 }
 
 class TreeItem extends Issue {

@@ -93,7 +93,7 @@
       },
       {
         "command": "youtrack.currentIssues.refresh",
-        "title": "Refresh",
+        "title": "Refresh Current Issues",
         "category": "YouTrack",
         "icon": {
           "light": "resources/light/refresh.svg",
@@ -137,6 +137,15 @@
         "title": "Select Saved Searches",
         "category": "YouTrack",
         "icon": "$(search)"
+      },
+      {
+        "command": "youtrack.searchIssues.refresh",
+        "title": "Refresh Search Issues",
+        "category": "YouTrack",
+        "icon": {
+          "light": "resources/light/refresh.svg",
+          "dark": "resources/dark/refresh.svg"
+        }
       }
     ],
     "menus": {
@@ -164,6 +173,11 @@
         },
         {
           "command": "youtrack.searchIssues.selectSavedSearches",
+          "when": "view == searchIssues",
+          "group": "navigation"
+        },
+        {
+          "command": "youtrack.searchIssues.refresh",
           "when": "view == searchIssues",
           "group": "navigation"
         }
