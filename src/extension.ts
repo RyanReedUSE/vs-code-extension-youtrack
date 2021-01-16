@@ -1,10 +1,11 @@
 'use strict';
 import * as vscode from 'vscode';
+import { addTimeCommand } from './commands/addTime';
 import { currentIssuesProvider } from './currentIssues';
-import { searchIssuesProvider } from './searchIssues';
-import { Issue } from './Issue';
-import { ViewIssuePanel } from './view/ViewIssuePanel';
 import { fetchSavedSearches } from './data/fetchSavedSearches';
+import { Issue } from './Issue';
+import { searchIssuesProvider } from './searchIssues';
+import { ViewIssuePanel } from './view/ViewIssuePanel';
 
 let currentIssueStatusBar: vscode.StatusBarItem;
 
@@ -86,18 +87,6 @@ export function activate(context: vscode.ExtensionContext) {
     _searchIssuesProvider.refresh();
   });
 
-  // Register Current Item Pin
-  vscode.commands.registerCommand('youtrack.pin', async (node: Issue) => {
-    // Set Pinned Issue to Global Storage
-    context.globalState.update('youtrackPinIssueId', node.id);
-    context.globalState.update('youtrackPinIssueSummary', node.summary);
-    // Update Status Bar With Issue
-    await updateStatusBarItem(node.id, node.summary);
-    // Refresh the Current and Search Issue List to Update the Pin Icon
-    _currentIssuesProvider.refresh();
-    _searchIssuesProvider.refresh();
-  });
-
   //Register Current Item Unpin
   vscode.commands.registerCommand('youtrack.unpin', async (node: Issue) => {
     // Clear Pinned Issue From Global Storage
@@ -116,9 +105,7 @@ export function activate(context: vscode.ExtensionContext) {
   });
 
   // Register Current Issues Add Time
-  vscode.commands.registerCommand('youtrack.addTime', (node: Issue) => {
-    vscode.window.showInformationMessage(`TODO: Implement Add Time to Given Card Feature. ${node.id}`);
-  });
+  addTimeCommand(context);
 }
 
 /**

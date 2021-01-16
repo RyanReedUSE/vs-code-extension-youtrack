@@ -54,3 +54,15 @@ export interface CustomFieldStatus {
   id: string;
   $type: string;
 }
+
+export interface Duration {
+  presentation: string;
+  minutes: number;
+  $type: string;
+}
+
+export interface SpentTime {
+  duration: Duration;
+  id: string;
+  $type: string;
+}
