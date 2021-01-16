@@ -1,10 +1,10 @@
 # YouTrack Issues - VS Code Extension
 
-> This is an unofficial YouTrack extension and is not a product of JetBrains
+This extension was created to streamline the development lifecycle for those that manage their issues within YouTrack. It aims to take the most used features within YouTrack and brings them to VS Code.
 
-# Why Use This One?
+The extension comes with two views on the side bar that allow you to view a list of issues that... TODO:
 
-This extension was created to streamline the development lifecycle for those that manage their issues within YouTrack. It aims to take the most used features within YouTrack and bring them to VS Code.
+Users can view a list of issues details, update issue state,
 
 # Features
 
@@ -29,10 +29,10 @@ This extension was created to streamline the development lifecycle for those tha
 
 > `Search Issues Max Response Count`
 
-## Todos
+## Road Map
 
--
+- [ ] Provide Developer
 
 ## Notes
 
-This product is not sponsored or endorsed by YouTrack or JetBrains. It's simply a VS Code Extension designed to work with the YouTrack REST API to provide YouTrack users with another option to view their issues.
+> This is an unofficial YouTrack extension and is not a product of JetBrains. It's simply a VS Code Extension designed to work with the YouTrack REST API to provide YouTrack users with another option to view their issues.
