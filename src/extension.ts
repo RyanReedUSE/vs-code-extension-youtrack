@@ -5,9 +5,11 @@ import {
   addTimeCommand,
   configureSettingsCommand,
   editIssueCommand,
+  pinIssueCommand,
   refreshCurrentIssuesCommand,
   refreshSearchIssuesCommand,
   selectSavedSearchesCommand,
+  unpinIssueCommand,
   viewIssueByIdCommand,
   viewIssueCommand,
 } from './commands/index';
@@ -22,7 +24,7 @@ export function activate(context: vscode.ExtensionContext) {
   const _currentIssuesProvider = new currentIssuesProvider(context);
   vscode.window.registerTreeDataProvider('currentIssues', _currentIssuesProvider);
 
-  // Registers Refresh Current Issues
+  // Registers Refresh Current Issues Command
   refreshCurrentIssuesCommand(context, _currentIssuesProvider);
 
   // Register Search Issues Provider `window.registerTreeDataProvider`
@@ -30,7 +32,7 @@ export function activate(context: vscode.ExtensionContext) {
   _searchIssuesProvider.refresh();
   vscode.window.createTreeView('searchIssues', { treeDataProvider: _searchIssuesProvider, showCollapseAll: true });
 
-  // Registers Refresh Search Issues
+  // Registers Refresh Search Issues Command
   refreshSearchIssuesCommand(context, _searchIssuesProvider);
 
   // Registers YouTrack Configure Settings Command
@@ -67,38 +69,20 @@ export function activate(context: vscode.ExtensionContext) {
     updateStatusBarItem(id, summary);
   }
 
-  // Register Current Item Pin
-  vscode.commands.registerCommand('youtrack.pin', async (node: Issue) => {
-    // Set Pinned Issue to Global Storage
-    context.globalState.update('youtrackPinIssueId', node.id);
-    context.globalState.update('youtrackPinIssueSummary', node.summary);
-    // Update Status Bar With Issue
-    await updateStatusBarItem(node.id, node.summary);
-    // Refresh the Current and Search Issue List to Update the Pin Icon
-    _currentIssuesProvider.refresh();
-    _searchIssuesProvider.refresh();
-  });
+  // Registers Pin Issue Command
+  pinIssueCommand(context);
 
-  //Register Current Item Unpin
-  vscode.commands.registerCommand('youtrack.unpin', async (node: Issue) => {
-    // Clear Pinned Issue From Global Storage
-    context.globalState.update('youtrackPinIssueId', '');
-    context.globalState.update('youtrackPinIssueSummary', '');
-    // Clear Status Bar
-    await updateStatusBarItem();
-    // Refresh the Current and Search Issue List to Update the Pin Icon
-    _currentIssuesProvider.refresh();
-    _searchIssuesProvider.refresh();
-  });
+  //Register Unpin Issue Command
+  unpinIssueCommand(context);
 }
 
 /**
- * Update Status Bar With The Current Pinned Task
+ * updateStatusBarItem - Update Status Bar With The Current Pinned Task
  *
  * @param {id} optional: string
  * @param {summary} optional: string
  */
-async function updateStatusBarItem(id?: string, summary?: string): Promise<void> {
+export const updateStatusBarItem = async (id?: string, summary?: string): Promise<void> => {
   if (id) {
     currentIssueStatusBar.text = `$(tasklist) ${id} ${summary?.substring(0, 20)}`;
     currentIssueStatusBar.tooltip = summary;
@@ -111,4 +95,4 @@ async function updateStatusBarItem(id?: string, summary?: string): Promise<void>
   } else {
     currentIssueStatusBar.hide();
   }
-}
+};

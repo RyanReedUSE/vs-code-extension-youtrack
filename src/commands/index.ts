@@ -2,6 +2,7 @@ export * from './addIssue';
 export * from './addTime';
 export * from './configureSettings';
 export * from './editIssue';
+export * from './pinIssue';
 export * from './refreshCurrentIssues';
 export * from './refreshSearchIssues';
 export * from './selectSavedSearches';
