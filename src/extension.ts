@@ -1,13 +1,17 @@
 'use strict';
 import * as vscode from 'vscode';
-import { addTimeCommand } from './commands/addTime';
-import { selectSavedSearchesCommand } from './commands/selectSavedSearches';
-import { viewIssueCommand } from './commands/viewIssue';
-import { viewIssueByIdCommand } from './commands/viewIssueById';
+import {
+  addIssueCommand,
+  addTimeCommand,
+  configureSettingsCommand,
+  editIssueCommand,
+  selectSavedSearchesCommand,
+  viewIssueByIdCommand,
+  viewIssueCommand,
+} from './commands/index';
 import { currentIssuesProvider } from './currentIssues';
 import { Issue } from './Issue';
 import { searchIssuesProvider } from './searchIssues';
-import { ViewIssuePanel } from './view/ViewIssuePanel';
 
 let currentIssueStatusBar: vscode.StatusBarItem;
 
@@ -27,27 +31,14 @@ export function activate(context: vscode.ExtensionContext) {
   // Register workspace Issues Refresh
   vscode.commands.registerCommand('youtrack.searchIssues.refresh', () => _searchIssuesProvider.refresh());
 
-  // Register Search Issues Configure Settings
-  vscode.commands.registerCommand('youtrack.configureSettings', () =>
-    vscode.commands.executeCommand(`workbench.action.openSettings`, `youtrack`)
-  );
+  // Registers YouTrack Configure Settings Command
+  configureSettingsCommand(context);
 
-  // Register Current Issues Add Issue
-  vscode.commands.registerCommand('youtrack.addIssue', () => {
-    vscode.commands.executeCommand(
-      'vscode.open',
-      vscode.Uri.parse(`${vscode.workspace.getConfiguration('youtrack').get('host')}newIssue`)
-    );
-  });
+  // Registers Add Issue Command
+  addIssueCommand(context);
 
-  // Register Current Issues Add Issue
-  vscode.commands.registerCommand('youtrack.editIssue', (node: Issue) => {
-    vscode.commands.executeCommand(
-      'vscode.open',
-      vscode.Uri.parse(`${vscode.workspace.getConfiguration('youtrack').get('host')}issue/${node.id}`)
-    );
-    vscode.window.showInformationMessage(`Opened issue in browser.`);
-  });
+  // Registers Edit Issue Command
+  editIssueCommand(context);
 
   // Registers Open Issue by Id Command
   viewIssueByIdCommand(context);

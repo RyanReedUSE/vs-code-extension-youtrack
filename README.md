@@ -20,6 +20,7 @@ TODO:
 - Update the issue status (state).
 - Create a branch from an issue.
 - Record spent time for a given issue.
+- Pin an issue to the app's status bar for quick access to the issue.
 
 # Requirements
 
