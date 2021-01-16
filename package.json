@@ -61,8 +61,8 @@
     },
     "commands": [
       {
-        "command": "youtrack.openIssueById",
-        "title": "Open Issue By Id",
+        "command": "youtrack.viewIssueById",
+        "title": "View Issue By Id",
         "category": "YouTrack"
       },
       {
@@ -218,7 +218,7 @@
         "youtrack.currentIssuesQuery": {
           "type": "string",
           "default": "Assignee: me -Resolved order by: created",
-          "description": "The filter to be used on the current issues query. Typically, this would be set to the current user's assigned issues. However, it can been user defined by the user if they want to adjust it to include certain query parameters. Default: Assignee: me -Unresolved"
+          "description": "The filter to be used on the current issues query. Typically, this would be set to the current user's assigned issues. However, it can been user defined by the user if they want to adjust it to include certain query parameters. Default: Assignee: me -Resolved order by: created"
         },
         "youtrack.searchIssuesGroupByStatus": {
           "type": "boolean",

@@ -2,6 +2,8 @@
 import * as vscode from 'vscode';
 import { addTimeCommand } from './commands/addTime';
 import { selectSavedSearchesCommand } from './commands/selectSavedSearches';
+import { viewIssueCommand } from './commands/viewIssue';
+import { viewIssueByIdCommand } from './commands/viewIssueById';
 import { currentIssuesProvider } from './currentIssues';
 import { Issue } from './Issue';
 import { searchIssuesProvider } from './searchIssues';
@@ -47,20 +49,11 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.window.showInformationMessage(`Opened issue in browser.`);
   });
 
-  // Register Open Issue by Id
-  vscode.commands.registerCommand('youtrack.openIssueById', async () => {
-    const result = await vscode.window.showInputBox({
-      placeHolder: 'Enter YouTrack Issue Id (For example: YT-123)',
-    });
-    vscode.commands.executeCommand('youtrack.viewIssue', undefined, result);
-  });
+  // Registers Open Issue by Id Command
+  viewIssueByIdCommand(context);
 
-  // Register Current Issues View
-  vscode.commands.registerCommand('youtrack.viewIssue', async (node?: Issue, issueId?: string) => {
-    const selectedIssueId = node?.id || issueId;
-    ViewIssuePanel.kill();
-    ViewIssuePanel.createOrShow(context.extensionUri, selectedIssueId);
-  });
+  // Registers View Issue Command
+  viewIssueCommand(context);
 
   // Registers Select Saved Searches Command
   selectSavedSearchesCommand(context);
