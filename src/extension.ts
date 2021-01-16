@@ -5,6 +5,8 @@ import {
   addTimeCommand,
   configureSettingsCommand,
   editIssueCommand,
+  refreshCurrentIssuesCommand,
+  refreshSearchIssuesCommand,
   selectSavedSearchesCommand,
   viewIssueByIdCommand,
   viewIssueCommand,
@@ -20,16 +22,16 @@ export function activate(context: vscode.ExtensionContext) {
   const _currentIssuesProvider = new currentIssuesProvider(context);
   vscode.window.registerTreeDataProvider('currentIssues', _currentIssuesProvider);
 
-  // Register Current Issues Refresh
-  vscode.commands.registerCommand('youtrack.currentIssues.refresh', () => _currentIssuesProvider.refresh());
+  // Registers Refresh Current Issues
+  refreshCurrentIssuesCommand(context, _currentIssuesProvider);
 
   // Register Search Issues Provider `window.registerTreeDataProvider`
   const _searchIssuesProvider = new searchIssuesProvider(context);
   _searchIssuesProvider.refresh();
   vscode.window.createTreeView('searchIssues', { treeDataProvider: _searchIssuesProvider, showCollapseAll: true });
 
-  // Register workspace Issues Refresh
-  vscode.commands.registerCommand('youtrack.searchIssues.refresh', () => _searchIssuesProvider.refresh());
+  // Registers Refresh Search Issues
+  refreshSearchIssuesCommand(context, _searchIssuesProvider);
 
   // Registers YouTrack Configure Settings Command
   configureSettingsCommand(context);
@@ -52,7 +54,7 @@ export function activate(context: vscode.ExtensionContext) {
   // Registers Add Time Command
   addTimeCommand(context);
 
-  // Create Status Bar Item
+  // Create Status Bar Item and Push to Subscription
   currentIssueStatusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 0);
   context.subscriptions.push(currentIssueStatusBar);
 
