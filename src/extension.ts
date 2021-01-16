@@ -1,8 +1,8 @@
 'use strict';
 import * as vscode from 'vscode';
 import { addTimeCommand } from './commands/addTime';
+import { selectSavedSearchesCommand } from './commands/selectSavedSearches';
 import { currentIssuesProvider } from './currentIssues';
-import { fetchSavedSearches } from './data/fetchSavedSearches';
 import { Issue } from './Issue';
 import { searchIssuesProvider } from './searchIssues';
 import { ViewIssuePanel } from './view/ViewIssuePanel';
@@ -62,6 +62,12 @@ export function activate(context: vscode.ExtensionContext) {
     ViewIssuePanel.createOrShow(context.extensionUri, selectedIssueId);
   });
 
+  // Registers Select Saved Searches Command
+  selectSavedSearchesCommand(context);
+
+  // Registers Add Time Command
+  addTimeCommand(context);
+
   // Create Status Bar Item
   currentIssueStatusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 0);
   context.subscriptions.push(currentIssueStatusBar);
@@ -98,14 +104,6 @@ export function activate(context: vscode.ExtensionContext) {
     _currentIssuesProvider.refresh();
     _searchIssuesProvider.refresh();
   });
-
-  // Register Current Issues Add Issue
-  vscode.commands.registerCommand('youtrack.searchIssues.selectSavedSearches', () => {
-    fetchSavedSearches(context);
-  });
-
-  // Register Current Issues Add Time
-  addTimeCommand(context);
 }
 
 /**
