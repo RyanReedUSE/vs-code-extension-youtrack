@@ -263,7 +263,7 @@
     "compile": "npm-run-all compile:*",
     "watch": "npm-run-all -p watch:*",
     "compile:extension": "tsc -p ./",
-    "compile:views": "webpack --mode development",
+    "compile:views": "webpack --mode production",
     "watch:extension": "tsc -watch -p ./",
     "watch:views": "webpack --watch --mode development",
     "postinstall": "node ./node_modules/vscode/bin/install",
