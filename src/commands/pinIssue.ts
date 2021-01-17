@@ -26,7 +26,7 @@ export const pinIssueCommand = (context: vscode.ExtensionContext) => {
  * @param context
  */
 export const unpinIssueCommand = (context: vscode.ExtensionContext) => {
-  vscode.commands.registerCommand('youtrack.pin', async (node: Issue) => {
+  vscode.commands.registerCommand('youtrack.unpin', async (node: Issue) => {
     // Clear Pinned Issue From Global Storage
     context.globalState.update('youtrackPinIssueId', '');
     context.globalState.update('youtrackPinIssueSummary', '');

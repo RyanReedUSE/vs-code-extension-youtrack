@@ -6,7 +6,7 @@ import { SpentTime } from './model';
 /**
  * Given the YouTrack Extension Settings, returns an array of current issues.
  */
-export async function addTimeSpent(context: vscode.ExtensionContext, issueId: string): Promise<any> {
+export async function addSpentTime(context: vscode.ExtensionContext, issueId: string): Promise<any> {
   // TODO: Type
   // Get YouTrack Extension Settings
   const host = vscode.workspace.getConfiguration('youtrack').get('host');

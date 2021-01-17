@@ -2,7 +2,7 @@
 import * as vscode from 'vscode';
 import {
   addIssueCommand,
-  addTimeCommand,
+  addSpentTimeCommand,
   configureSettingsCommand,
   editIssueCommand,
   pinIssueCommand,
@@ -53,8 +53,8 @@ export function activate(context: vscode.ExtensionContext) {
   // Registers Select Saved Searches Command
   selectSavedSearchesCommand(context);
 
-  // Registers Add Time Command
-  addTimeCommand(context);
+  // Registers Add Spent Time Command
+  addSpentTimeCommand(context);
 
   // Create Status Bar Item and Push to Subscription
   currentIssueStatusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 0);

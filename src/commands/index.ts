@@ -1,5 +1,5 @@
 export * from './addIssue';
-export * from './addTime';
+export * from './addSpentTime';
 export * from './configureSettings';
 export * from './editIssue';
 export * from './pinIssue';
