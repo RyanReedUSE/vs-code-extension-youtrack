@@ -135,6 +135,12 @@
         "icon": "$(watch)"
       },
       {
+        "command": "youtrack.updateIssueState",
+        "title": "Update Issue State",
+        "category": "YouTrack",
+        "icon": "$(milestone)"
+      },
+      {
         "command": "youtrack.searchIssues.selectSavedSearches",
         "title": "Select Saved Searches",
         "category": "YouTrack",
@@ -189,6 +195,10 @@
           "command": "youtrack.editIssue",
           "when": "viewItem == issue",
           "group": "inline"
+        },
+        {
+          "command": "youtrack.updateIssueState",
+          "when": "viewItem == issue"
         },
         {
           "command": "youtrack.pin",

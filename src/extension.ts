@@ -13,6 +13,7 @@ import {
   viewIssueByIdCommand,
   viewIssueCommand,
 } from './commands/index';
+import { updateIssueStateCommand } from './commands/updateIssueState';
 import { currentIssuesProvider } from './currentIssues';
 import { searchIssuesProvider } from './searchIssues';
 
@@ -54,6 +55,9 @@ export function activate(context: vscode.ExtensionContext) {
 
   // Registers Add Spent Time Command
   addSpentTimeCommand(context);
+
+  // Registers Update Issue State Command
+  updateIssueStateCommand(context);
 
   // Create Status Bar Item and Push to Subscription
   pinnedIssueStatusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 0);

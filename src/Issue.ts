@@ -21,7 +21,6 @@ export class Issue extends vscode.TreeItem {
   }
 
   // Match the icon to the resolved state, empty square for unresolved, checkmark for resolved
-
   iconPath = this.command
     ? {
         light:

@@ -2,4 +2,4 @@
 
 ## 0.1.1 Initial Release
 
-- Initial release
+- Initial extension release

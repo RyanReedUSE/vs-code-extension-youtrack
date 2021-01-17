@@ -1,8 +1,9 @@
 /*eslint no-octal-escape: "error"*/
 import * as vscode from 'vscode';
+import { editIssue } from '../commands';
 import { createBranch } from '../data/createBranch';
 import { fetchIssueData } from '../data/fetchIssueData';
-import { updateIssueStatus } from '../data/updateIssueStatus';
+import { updateIssueState } from '../data/updateIssueState';
 import { getNonce } from '../getNonce';
 import { openUrl } from '../utils';
 
@@ -84,8 +85,11 @@ export class ViewIssuePanel {
           case 'link':
             openUrl(message.text);
             return;
-          case 'updateStatus':
-            updateIssueStatus(message.text);
+          case 'edit':
+            editIssue(message.text);
+            return;
+          case 'updateState':
+            updateIssueState(message.text);
             return;
           case 'createBranch':
             // Create a Branch Based on The Current Issue Id and Name
