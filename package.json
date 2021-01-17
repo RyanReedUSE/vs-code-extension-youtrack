@@ -48,9 +48,9 @@
       "youtrack-issues": [
         {
           "id": "currentIssues",
-          "name": "Current Issues",
+          "name": "My Current Issues",
           "icon": "media/dep.svg",
-          "contextualTitle": "Current YouTrack Issues"
+          "contextualTitle": "My Current YouTrack Issues"
         },
         {
           "id": "searchIssues",

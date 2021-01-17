@@ -14,10 +14,9 @@ import {
   viewIssueCommand,
 } from './commands/index';
 import { currentIssuesProvider } from './currentIssues';
-import { Issue } from './Issue';
 import { searchIssuesProvider } from './searchIssues';
 
-let currentIssueStatusBar: vscode.StatusBarItem;
+let pinnedIssueStatusBar: vscode.StatusBarItem;
 
 export function activate(context: vscode.ExtensionContext) {
   // Register Current Issues Provider `window.registerTreeDataProvider`
@@ -57,8 +56,8 @@ export function activate(context: vscode.ExtensionContext) {
   addSpentTimeCommand(context);
 
   // Create Status Bar Item and Push to Subscription
-  currentIssueStatusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 0);
-  context.subscriptions.push(currentIssueStatusBar);
+  pinnedIssueStatusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 0);
+  context.subscriptions.push(pinnedIssueStatusBar);
 
   // Check If Global State Already Has a Pinned Issue
   if (context.globalState.get('youtrackPinIssueId')) {
@@ -84,15 +83,15 @@ export function activate(context: vscode.ExtensionContext) {
  */
 export const updateStatusBarItem = async (id?: string, summary?: string): Promise<void> => {
   if (id) {
-    currentIssueStatusBar.text = `$(tasklist) ${id} ${summary?.substring(0, 20)}`;
-    currentIssueStatusBar.tooltip = summary;
-    currentIssueStatusBar.command = {
+    pinnedIssueStatusBar.text = `$(tasklist) ${id} ${summary?.substring(0, 20)}`;
+    pinnedIssueStatusBar.tooltip = summary;
+    pinnedIssueStatusBar.command = {
       command: 'youtrack.viewIssue',
       title: '',
       arguments: [undefined, id],
     };
-    currentIssueStatusBar.show();
+    pinnedIssueStatusBar.show();
   } else {
-    currentIssueStatusBar.hide();
+    pinnedIssueStatusBar.hide();
   }
 };
