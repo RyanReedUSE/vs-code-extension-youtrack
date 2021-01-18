@@ -19,8 +19,10 @@
     "project management",
     "management",
     "youtrack",
-    "jetbrains"
+    "jetbrains",
+    "issues"
   ],
+  "preview": true,
   "repository": "https://github.com/RyanReedUSE/vs-code-extension-youtrack",
   "icon": "media/icon.png",
   "galleryBanner": {

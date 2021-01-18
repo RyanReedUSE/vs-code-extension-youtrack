@@ -1,48 +1,94 @@
+![](https://raw.githubusercontent.com/huddleboards/youtrack-extension-images/main/YouTrack%20and%20Code.png)
+
 # YouTrack Issues - VS Code Extension
 
-This extension was created to streamline the development lifecycle for those that manage their issues within YouTrack. It aims to take the most used features within YouTrack and brings them to VS Code.
+This extension was created to streamline the development lifecycle for those that manage their issues within YouTrack. It aims to take the most used features within YouTrack and brings them to your VS Code environment.
 
-The extension comes with two views on the side bar that allow you to view a list of issues the current users issues and another list that presents results of a selected saved search.
+The extension comes with two views on the side bar that allow you to view a list of issues the current user's issues and another list that presents results of a selected saved search.
 
-### My Issues
+![](https://raw.githubusercontent.com/huddleboards/youtrack-extension-images/main/Extension%20Layout.png)
 
-TODO:
+## Getting Started
 
-### Search Issues
+1. Install the YouTrack Issues Extension here.
+2. Go to your instance of you track and get the host URL and [create a personal access token](https://www.jetbrains.com/help/youtrack/standalone/Manage-Permanent-Token.html#obtain-permanent-token) for authentication.
+3. Open settings.json (or Settings UI) to add the following.
 
-TODO:
+```json
+{
+  "youtrack.host": "https://xyz-site.myjetbrains.com/youtrack/", // Remember to include the full URL, including the last "/" as shown in the example.
+  "youtrack.permanentToken": "perm:....." // Create a personal access token by following the steps on YouTrack's documentation linked in step 2.
+}
+```
+
+## My Current Issues View
+
+The current issues list view is designed show the user their current assigned issues for easy access. The query for this view can be easily updated in the extensions settings if you prefer to see a different query. This default to `Assignee: me -Resolved order by: created`.
+
+## Search Issues View
+
+The search issues list view is similar to the current issues view, but it is used to take saved searches from your instance of YouTrack and allow you to pick it from a list or add another custom query. You can also group your searched issues here or see them as a flat list. The best use case for this view is for using a dynamic query that always show the current sprint of one of your main boards.
 
 # Features
 
-- List YouTrack issues within the app's side bar.
-  - List the user's current issues, which is typically used for filtering issues that are open and assigned to the current user.
-  - List issues based on saved searches from YouTrack, which is best used for having a pre-built search in YouTrack for the main development board and current sprint
-- Update the issue status (state).
-- Create a branch from an issue.
-- Record spent time for a given issue.
-- Pin an issue to the app's status bar for quick access to the issue.
+## List YouTrack issues within the app's side bar.
+
+- List the user's current issues, which is typically used for filtering issues that are open and assigned to the current user.
+- List issues based on saved searches from YouTrack, which is best used for having a pre-built search in YouTrack for the main development board and current sprint
+
+## View an issue with a new webview with styled markdown.
+
+- By clicking on an issue in the side bar, a new tab will open to show the contents of the issue, as well as any custom fields.
+
+## Update the issue status (state)
+
+- Right clicking an issue or clicking the button within an issue view to update the state.
+
+![](https://raw.githubusercontent.com/huddleboards/youtrack-extension-images/main/Update%20Issue%20State.png)
+![](https://raw.githubusercontent.com/huddleboards/youtrack-extension-images/main/Update%20Issue%20State%20Selection.png)
+
+## Create a branch from an issue
+
+![](https://raw.githubusercontent.com/huddleboards/youtrack-extension-images/main/Create%20Branch.png)
+
+## Record spent time for a given issue.
+
+- Using YouTrack's duration format, enter in time spent for a given card. This applies the current date as the date worked behind the scenes.
+
+![](https://raw.githubusercontent.com/huddleboards/youtrack-extension-images/main/Add%20Time%20Spent.png)
+
+## Pin an Issue
+
+- Pin an issue to the app's status bar for quick access to the issue while your working on other files or have the sidebar open to a different view.
+
+![](https://raw.githubusercontent.com/huddleboards/youtrack-extension-images/main/Pin%20Issue.png)
 
 # Requirements
 
-Using this extension requires a valid subscription to YouTrack. At the time of writing this, for teams of 1-10 people it's free to use [YouTrack](https://www.jetbrains.com/youtrack/buy/#incloud?billing=yearly).
+Using this extension requires a valid subscription to YouTrack. At the time of writing this, it's free to use for teams of 1-10 people. [YouTrack](https://www.jetbrains.com/youtrack/buy/#incloud?billing=yearly).
 
 # Settings
 
-> `Current Issues Query` Set the query for the current user's issues. This is typically set to the current users unresolved issues.
-
-> `Host` Set the YouTrack host URL.
-
-> `Permanent Token`
-
-> `Current Issues Max Response Count`
-
-> `Search Issues Group By Status`
-
-> `Search Issues Max Response Count`
+```json
+{
+  "youtrack.host": "https://xyz-site.myjetbrains.com/youtrack/", // Requires users input before use
+  "youtrack.permanentToken": "perm:......", // Requires users input before use
+  "youtrack.currentIssuesMaxResponseCount": 20,
+  "youtrack.currentIssuesQuery": "Assignee: me -Resolved order by: created",
+  "youtrack.searchIssuesGroupByStatus": true,
+  "youtrack.searchIssuesMaxResponseCount": 100
+}
+```
 
 ## Road Map
 
-- [ ] Provide Developer
+- [ ] Add support to show issue attachments.
+- [ ] Add support to show issue comments.
+- [ ] Add support to add quick comments to an issue.
+
+## Author
+
+[@RyanReedUSE](https://github.com/ryanreeduse)
 
 ## Notes
 
