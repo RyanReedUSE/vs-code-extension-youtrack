@@ -37,29 +37,57 @@ export async function addSpentTime(context: vscode.ExtensionContext, issueId: st
     return;
   }
 
-  const workItem: SpentTime = await axios
-    .post(
-      `${host}api/issues/${issueId}/timeTracking/workItems?fields=id,$type,duration(minutes,presentation)`,
-      {
-        duration: {
-          $type: 'DurationValue',
-          presentation: timeSpent,
-        },
-        date: moment().valueOf(),
-        usesMarkdown: true,
+  const url = `${host}api/issues/${issueId}/timeTracking/workItems?fields=id,$type,duration(minutes,presentation)`;
+
+  const options = {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${permanentToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      duration: {
+        $type: 'DurationValue',
+        presentation: timeSpent,
       },
-      config
-    )
+      date: moment().valueOf(),
+      usesMarkdown: true,
+    }),
+  };
+
+  fetch(url, options)
     .then((response) => {
-      if (response.data) {
-        vscode.window.showInformationMessage(`Time added to issue ${issueId}`);
-        return response.data;
-      }
+      // handle the response
+      console.log(response.json());
     })
-    .catch((err) => {
-      vscode.window.showErrorMessage(`Issue recording time: ${err.response.data.error_description}`);
-      return;
+    .catch((error) => {
+      // handle the error
+      console.log(error.json());
     });
 
-  return workItem;
+  // const workItem: SpentTime = await axios
+  //   .post(
+  //     `${host}api/issues/${issueId}/timeTracking/workItems?fields=id,$type,duration(minutes,presentation)`,
+  //     {
+  //       duration: {
+  //         $type: 'DurationValue',
+  //         presentation: timeSpent,
+  //       },
+  //       date: moment().valueOf(),
+  //       usesMarkdown: true,
+  //     },
+  //     config
+  //   )
+  //   .then((response) => {
+  //     if (response.data) {
+  //       vscode.window.showInformationMessage(`Time added to issue ${issueId}`);
+  //       return response.data;
+  //     }
+  //   })
+  //   .catch((err) => {
+  //     vscode.window.showErrorMessage(`Issue recording time: ${err.response.data.error_description}`);
+  //     return;
+  //   });
+
+  // return workItem;
 }
