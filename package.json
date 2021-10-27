@@ -1,13 +1,13 @@
 {
-  "name": "vs-code-extension-youtrack",
+  "name": "youtrack-issues",
   "displayName": "YouTrack Issues",
   "description": "An extension for viewing and managing YouTrack issues within VS Code.",
-  "version": "0.1.1",
+  "version": "1.0.1",
   "publisher": "huddleboards",
   "author": {
     "name": "huddleboards"
   },
-  "enableProposedApi": true,
+  "enableProposedApi": false,
   "engines": {
     "vscode": "^1.52.0"
   },
@@ -19,11 +19,14 @@
     "project management",
     "management",
     "youtrack",
-    "jetbrains"
+    "jetbrains",
+    "issues"
   ],
-  "icon": "https://raw.githubusercontent.com/huddleboards/youtrack-extension-images/main/youtrack_logo_300x300.png",
+  "preview": false,
+  "repository": "https://github.com/RyanReedUSE/vs-code-extension-youtrack",
+  "icon": "media/icon.png",
   "galleryBanner": {
-    "color": "#4c42ff"
+    "color": "#d6d6d6"
   },
   "bugs": {
     "email": "huddleboards@gmail.com"
@@ -259,18 +262,18 @@
     ]
   },
   "scripts": {
+    "package": "npx vsce package",
+    "publish": "npx vsce publish",
     "vscode:prepublish": "npm run compile",
     "compile": "npm-run-all compile:*",
     "watch": "npm-run-all -p watch:*",
     "compile:extension": "tsc -p ./",
-    "compile:views": "webpack --mode development",
+    "compile:views": "webpack --mode production",
     "watch:extension": "tsc -watch -p ./",
     "watch:views": "webpack --watch --mode development",
     "postinstall": "node ./node_modules/vscode/bin/install",
     "test": "npm run compile && node ./node_modules/vscode/bin/test",
-    "lint": "eslint . --ext .ts,.tsx",
-    "build:css": "postcss src/style/tailwind.css -o src/style/main.css",
-    "build:watch": "postcss src/style/tailwind.css -o src/style/main.css --watch"
+    "lint": "eslint . --ext .ts,.tsx"
   },
   "devDependencies": {
     "@types/mkdirp": "^0.5.2",
@@ -294,24 +297,16 @@
     "webpack-cli": "^3.3.5"
   },
   "dependencies": {
-    "autoprefixer": "^9.8.6",
+    "@types/axios": "^0.14.0",
+    "@types/moment": "^2.13.0",
     "axios": "^0.21.1",
-    "ftp": "^0.3.10",
-    "jsonc-parser": "^0.4.2",
     "lodash": "^4.17.20",
-    "luxon": "^1.25.0",
-    "minimist": "^0.2.1",
-    "mkdirp": "^0.5.1",
     "moment": "^2.29.1",
-    "postcss": "^8.2.4",
-    "postcss-cli": "^8.3.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-markdown": "^5.0.3",
     "react-syntax-highlighter": "^15.4.3",
     "remark-gfm": "^1.0.0",
-    "rimraf": "^2.6.2",
-    "tailwindcss": "^2.0.2",
     "vscode-test": "^1.4.1"
   }
 }
