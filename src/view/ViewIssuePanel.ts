@@ -48,10 +48,10 @@ export class ViewIssuePanel {
 
     ViewIssuePanel.currentPanel = new ViewIssuePanel(panel, extensionUri, issueData);
 
-    // Open Dev Tools With Each Load
-    // setTimeout(() => {
-    //   vscode.commands.executeCommand('workbench.action.webview.openDeveloperTools');
-    // }, 500);
+    // Open Dev Tools With Each Load TODO: Hide Before Deployment
+    setTimeout(() => {
+      vscode.commands.executeCommand('workbench.action.webview.openDeveloperTools');
+    }, 500);
   }
 
   public static kill() {

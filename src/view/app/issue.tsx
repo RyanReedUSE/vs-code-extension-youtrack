@@ -55,6 +55,9 @@ export default class IssuePreview extends React.Component<IIssueProps> {
     );
   };
 
+  /*
+   * Render Custom Fields
+   */
   private renderCustomFields = () => {
     const { issueData } = this.props;
 
@@ -69,6 +72,26 @@ export default class IssuePreview extends React.Component<IIssueProps> {
           ) : (
             <div className="mb-3 h-6">{field.value && field.value.minutes ? field.value?.presentation : '-'}</div>
           )}
+        </div>
+      );
+    });
+  };
+
+  /*
+   * Render Comments
+   */
+  private renderComments = () => {
+    const { issueData } = this.props;
+
+    return issueData.comments.map((comment) => {
+      return (
+        <div key={comment.id}>
+          <div>
+            <b>
+              {comment.author.fullName} • Commented {moment(comment.created).fromNow()}
+            </b>
+          </div>
+          <div className="mb-3 h-6">{comment.text}</div>
         </div>
       );
     });
@@ -105,7 +128,7 @@ export default class IssuePreview extends React.Component<IIssueProps> {
                 })
               }
             >
-              Edit
+              Edit Issue
             </button>
             <button
               className="w-1/6 mx-3"
@@ -123,7 +146,7 @@ export default class IssuePreview extends React.Component<IIssueProps> {
               onClick={() =>
                 vscode.postMessage({
                   command: 'createBranch',
-                  text: `${issueData.idReadable}_${issueData.summary.replace(/ /g, '')}`,
+                  text: `${issueData.idReadable}_${issueData.summary}`,
                 })
               }
             >
@@ -139,12 +162,20 @@ export default class IssuePreview extends React.Component<IIssueProps> {
                 plugins={[gfm]}
                 children={this.transformMarkdown()}
               ></ReactMarkdown>
+              <div
+                className="m-3 px-8 py-2"
+                style={{ backgroundColor: 'var(--vscode-breadcrumbPicker-background)', borderRadius: '8px' }}
+              >
+                <h3>Comments</h3>
+                {this.renderComments()}
+              </div>
             </div>
             <div className="md:col-span-1 col-span-3 sm:order-first xs:order-first md:order-last">
               <div
                 className="mx-3 mb-3 p-8"
                 style={{ backgroundColor: 'var(--vscode-breadcrumbPicker-background)', borderRadius: '8px' }}
               >
+                <h3>Fields</h3>
                 {this.renderCustomFields()}
               </div>
             </div>

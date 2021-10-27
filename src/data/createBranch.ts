@@ -11,6 +11,11 @@ export const createBranch = async (branchName: string) => {
 
   const branchWhitespaceChar = config.get<string>('branchWhitespaceChar')!;
   const branchValidationRegex = config.get<string>('branchValidationRegex')!;
+
+  const capitalizeFirstLetter = (string: string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
   const sanitize = (name: string) =>
     name
       ? name
@@ -19,8 +24,12 @@ export const createBranch = async (branchName: string) => {
           .replace(/^\.|\/\.|\.\.|~|\^|:|\/$|\.lock$|\.lock\/|\\|\*|\s|^\s*$|\.$|\[|\]$/g, branchWhitespaceChar)
       : name;
 
+  const capitalizeBranchName = branchName
+    .replace(/(^\w{1})|(\s+\w{1})/g, (letter) => letter.toUpperCase())
+    .replace(/ /g, '');
+
   const result = await vscode.window.showInputBox({
-    value: sanitize(branchName).substring(0, 28),
+    value: sanitize(capitalizeBranchName).substring(0, 28),
     prompt: 'Please provide or confirm a new branch name.',
     placeHolder: 'Enter YouTrack Issue Id (For example: YT-123)',
     validateInput: (name: string) => {

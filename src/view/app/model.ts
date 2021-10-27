@@ -6,18 +6,30 @@ export interface IIssue {
   numberInProject: number;
   votes: number;
   reporter: Reporter;
-  commentsCount: number;
   usesMarkdown: boolean;
   idReadable: string;
   tags: any[];
   attachments: Attachment[];
   customFields: CustomField[];
   updater: Updater;
-  comments: any[];
+  comments: Comment[];
+  commentsCount: number;
   links: Link[];
   created: number;
   description: string;
   $type: string;
+}
+
+export interface Comment {
+  id:string;
+  text: string;
+  created: string;
+  updated: string;
+  usesMarkdown: boolean;
+  author: {
+    login: string,
+    fullName: string
+  };
 }
 
 export interface Project {
