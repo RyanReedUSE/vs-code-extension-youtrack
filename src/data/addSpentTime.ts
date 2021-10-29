@@ -1,10 +1,9 @@
-import * as vscode from 'vscode';
-import axios from 'axios';
 import * as moment from 'moment';
-import { SpentTime } from './model';
+import * as vscode from 'vscode';
+import fetch from 'cross-fetch';
 
 /**
- * Given the YouTrack Extension Settings, returns an array of current issues.
+ * Add Spent Time for the Given Issue Id
  */
 export async function addSpentTime(context: vscode.ExtensionContext, issueId: string): Promise<any> {
   // TODO: Type
@@ -26,7 +25,7 @@ export async function addSpentTime(context: vscode.ExtensionContext, issueId: st
     headers: { Authorization: `Bearer ${permanentToken}` },
   };
 
-  // Prompt the user to enter their own youtrack query
+  // Prompt the user to enter their time spent
   const timeSpent: string = await vscode.window.showInputBox({
     prompt: `Enter the time spent for Issue ${issueId}. (1w=5d, 1d=8h)`,
     placeHolder: 'Enter valid duration syntax for time spent (For example: 1w 2d 4h)',

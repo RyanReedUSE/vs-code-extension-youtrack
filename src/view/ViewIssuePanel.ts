@@ -1,6 +1,7 @@
 /*eslint no-octal-escape: "error"*/
 import * as vscode from 'vscode';
 import { editIssue } from '../commands';
+import { addComment } from '../data/addComment';
 import { createBranch } from '../data/createBranch';
 import { fetchIssueData } from '../data/fetchIssueData';
 import { updateIssueState } from '../data/updateIssueState';
@@ -90,6 +91,9 @@ export class ViewIssuePanel {
             return;
           case 'updateState':
             updateIssueState(message.text);
+            return;
+          case 'addComment':
+            addComment(message.text);
             return;
           case 'createBranch':
             // Create a Branch Based on The Current Issue Id and Name

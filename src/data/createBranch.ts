@@ -12,10 +12,6 @@ export const createBranch = async (branchName: string) => {
   const branchWhitespaceChar = config.get<string>('branchWhitespaceChar')!;
   const branchValidationRegex = config.get<string>('branchValidationRegex')!;
 
-  const capitalizeFirstLetter = (string: string) => {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  };
-
   const sanitize = (name: string) =>
     name
       ? name

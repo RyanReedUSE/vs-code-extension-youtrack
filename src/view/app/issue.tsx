@@ -5,6 +5,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { a11yDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import * as gfm from 'remark-gfm';
 import { IIssue } from './model';
+import _ from 'lodash';
 
 interface IIssueProps {
   vscode: any;
@@ -35,7 +36,7 @@ export default class IssuePreview extends React.Component<IIssueProps> {
    */
   private renderTitleBlock = () => {
     return (
-      <div className="grid">
+      <div className="grid" key="title-block">
         <h1>
           <b>{this.props.issueData.idReadable}</b> {this.props.issueData.summary}
         </h1>
@@ -83,7 +84,9 @@ export default class IssuePreview extends React.Component<IIssueProps> {
   private renderComments = () => {
     const { issueData } = this.props;
 
-    return issueData.comments.map((comment) => {
+    const comments = _.orderBy(issueData.comments, ['created'], ['desc']);
+
+    return comments.map((comment) => {
       return (
         <div key={comment.id}>
           <div>
@@ -91,7 +94,13 @@ export default class IssuePreview extends React.Component<IIssueProps> {
               {comment.author.fullName} • Commented {moment(comment.created).fromNow()}
             </b>
           </div>
-          <div className="mb-3 h-6">{comment.text}</div>
+          <div className="mb-3">
+            <ReactMarkdown
+              renderers={this.renderers}
+              plugins={[gfm]}
+              children={this.transformMarkdown(comment.text)}
+            ></ReactMarkdown>
+          </div>
         </div>
       );
     });
@@ -101,9 +110,9 @@ export default class IssuePreview extends React.Component<IIssueProps> {
    * Transform Markdown
    * Update convert markdown images to URLs from attachments
    */
-  private transformMarkdown = () => {
+  private transformMarkdown = (markdown?: string) => {
     const { issueData, host } = this.props;
-    let descriptionMarkdown = issueData.description;
+    let descriptionMarkdown = markdown ? markdown : issueData.description;
 
     issueData.attachments.forEach((attachment) => {
       descriptionMarkdown = descriptionMarkdown.replace(attachment.name, `${host}${attachment.url}`);
@@ -151,6 +160,17 @@ export default class IssuePreview extends React.Component<IIssueProps> {
               }
             >
               Create Branch
+            </button>
+            <button
+              className="w-1/6 ml-3"
+              onClick={() =>
+                vscode.postMessage({
+                  command: 'addComment',
+                  text: issueData.idReadable,
+                })
+              }
+            >
+              Add Comment
             </button>
           </div>
           {this.renderTitleBlock()}

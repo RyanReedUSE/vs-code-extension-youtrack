@@ -21,14 +21,14 @@ export interface IIssue {
 }
 
 export interface Comment {
-  id:string;
+  id: string;
   text: string;
   created: string;
   updated: string;
   usesMarkdown: boolean;
   author: {
-    login: string,
-    fullName: string
+    login: string;
+    fullName: string;
   };
 }
 
