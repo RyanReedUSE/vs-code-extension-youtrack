@@ -2,7 +2,7 @@
   "name": "youtrack-issues",
   "displayName": "YouTrack Issues",
   "description": "An extension for viewing and managing YouTrack issues within VS Code.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "publisher": "huddleboards",
   "author": {
     "name": "huddleboards"
