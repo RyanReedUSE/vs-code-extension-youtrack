@@ -91,6 +91,7 @@ Using this extension requires a valid subscription to YouTrack. At the time of w
 ## Author
 
 [@RyanReedUSE](https://github.com/ryanreeduse)
+https://www.linkedin.com/in/ryanandrewreed/
 
 ## Notes
 
