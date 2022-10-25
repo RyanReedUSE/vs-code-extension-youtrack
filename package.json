@@ -1,0 +1,313 @@
+{
+  "name": "youtrack-issues",
+  "displayName": "YouTrack Issues",
+  "description": "An extension for viewing and managing YouTrack issues within VS Code.",
+  "version": "1.0.2",
+  "publisher": "huddleboards",
+  "author": {
+    "name": "huddleboards"
+  },
+  "enableProposedApi": false,
+  "engines": {
+    "vscode": "^1.52.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "tasks",
+    "project management",
+    "management",
+    "youtrack",
+    "jetbrains",
+    "issues"
+  ],
+  "preview": false,
+  "repository": "https://github.com/RyanReedUSE/vs-code-extension-youtrack",
+  "icon": "media/icon.png",
+  "galleryBanner": {
+    "color": "#d6d6d6"
+  },
+  "bugs": {
+    "email": "huddleboards@gmail.com"
+  },
+  "activationEvents": [
+    "onView:currentIssues",
+    "onView:searchIssues",
+    "onCommand:youtrack.viewConfig"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "youtrack-issues",
+          "title": "YouTrack Issues",
+          "icon": "media/youtrack.svg"
+        }
+      ]
+    },
+    "views": {
+      "youtrack-issues": [
+        {
+          "id": "currentIssues",
+          "name": "My Current Issues",
+          "icon": "media/dep.svg",
+          "contextualTitle": "My Current YouTrack Issues"
+        },
+        {
+          "id": "searchIssues",
+          "name": "Search Issues",
+          "contextualTitle": "Search YouTrack Issues"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "youtrack.viewIssueById",
+        "title": "View Issue By Id",
+        "category": "YouTrack"
+      },
+      {
+        "command": "youtrack.addIssue",
+        "title": "Add Issue",
+        "category": "YouTrack",
+        "icon": {
+          "light": "resources/light/add.svg",
+          "dark": "resources/dark/add.svg"
+        }
+      },
+      {
+        "command": "youtrack.configureSettings",
+        "title": "Configure Settings",
+        "category": "YouTrack",
+        "icon": {
+          "light": "resources/light/gear.svg",
+          "dark": "resources/dark/gear.svg"
+        }
+      },
+      {
+        "command": "youtrack.viewIssue",
+        "title": "View Issue",
+        "category": "YouTrack",
+        "icon": {
+          "light": "resources/light/preview.svg",
+          "dark": "resources/dark/preview.svg"
+        }
+      },
+      {
+        "command": "youtrack.currentIssues.refresh",
+        "title": "Refresh Current Issues",
+        "category": "YouTrack",
+        "icon": {
+          "light": "resources/light/refresh.svg",
+          "dark": "resources/dark/refresh.svg"
+        }
+      },
+      {
+        "command": "youtrack.pin",
+        "title": "Pin Issue",
+        "category": "YouTrack",
+        "icon": {
+          "light": "resources/light/pinned.svg",
+          "dark": "resources/dark/pinned.svg"
+        }
+      },
+      {
+        "command": "youtrack.unpin",
+        "title": "Unpin Issue",
+        "category": "YouTrack",
+        "icon": {
+          "light": "resources/light/pinned-dirty.svg",
+          "dark": "resources/dark/pinned-dirty.svg"
+        }
+      },
+      {
+        "command": "youtrack.editIssue",
+        "title": "Edit Issue Online",
+        "category": "YouTrack",
+        "icon": {
+          "light": "resources/light/edit.svg",
+          "dark": "resources/dark/edit.svg"
+        }
+      },
+      {
+        "command": "youtrack.addTime",
+        "title": "Add Time",
+        "category": "YouTrack",
+        "icon": "$(watch)"
+      },
+      {
+        "command": "youtrack.updateIssueState",
+        "title": "Update Issue State",
+        "category": "YouTrack",
+        "icon": "$(milestone)"
+      },
+      {
+        "command": "youtrack.searchIssues.selectSavedSearches",
+        "title": "Select Saved Searches",
+        "category": "YouTrack",
+        "icon": "$(search)"
+      },
+      {
+        "command": "youtrack.searchIssues.refresh",
+        "title": "Refresh Search Issues",
+        "category": "YouTrack",
+        "icon": {
+          "light": "resources/light/refresh.svg",
+          "dark": "resources/dark/refresh.svg"
+        }
+      }
+    ],
+    "menus": {
+      "commandPalette": [],
+      "view/title": [
+        {
+          "command": "youtrack.currentIssues.refresh",
+          "when": "view == currentIssues",
+          "group": "navigation"
+        },
+        {
+          "command": "youtrack.unpin",
+          "when": "view == currentIssues",
+          "group": "navigation"
+        },
+        {
+          "command": "youtrack.addIssue",
+          "when": "view == currentIssues || view == searchIssues",
+          "group": "navigation"
+        },
+        {
+          "command": "youtrack.configureSettings",
+          "when": "view == currentIssues || view == searchIssues",
+          "group": "navigation"
+        },
+        {
+          "command": "youtrack.searchIssues.selectSavedSearches",
+          "when": "view == searchIssues",
+          "group": "navigation"
+        },
+        {
+          "command": "youtrack.searchIssues.refresh",
+          "when": "view == searchIssues",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "youtrack.editIssue",
+          "when": "viewItem == issue",
+          "group": "inline"
+        },
+        {
+          "command": "youtrack.updateIssueState",
+          "when": "viewItem == issue"
+        },
+        {
+          "command": "youtrack.pin",
+          "when": "viewItem == issue",
+          "group": "inline"
+        },
+        {
+          "command": "youtrack.addTime",
+          "when": "viewItem == issue",
+          "group": "inline"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "YouTrack Issues",
+      "properties": {
+        "youtrack.host": {
+          "type": "string",
+          "default": "https://xyz-site.myjetbrains.com/youtrack/",
+          "description": "The YouTrack server host address and path. Example: https://xyz-site.myjetbrains.com/youtrack/"
+        },
+        "youtrack.permanentToken": {
+          "type": "string",
+          "default": "",
+          "description": "A permanent token allows access to a service with the permissions that are granted to the user account. This a more secure way to access the YouTrack REST API without the need to store a username and password. Instructions to generate a token can be found at https://www.jetbrains.com/help/youtrack/standalone/Manage-Permanent-Token.html#obtain-permanent-token"
+        },
+        "youtrack.currentIssuesQuery": {
+          "type": "string",
+          "default": "Assignee: me -Resolved order by: created",
+          "description": "The filter to be used on the current issues query. Typically, this would be set to the current user's assigned issues. However, it can been user defined by the user if they want to adjust it to include certain query parameters. Default: Assignee: me -Resolved order by: created"
+        },
+        "youtrack.searchIssuesGroupByStatus": {
+          "type": "boolean",
+          "default": true,
+          "description": "The option to view issues in the search issues tree view grouped by status. Default: true"
+        },
+        "youtrack.currentIssuesMaxResponseCount": {
+          "type": "number",
+          "default": 20,
+          "description": "The maximum number of entries that are returned in the current issues response. Default: 20"
+        },
+        "youtrack.searchIssuesMaxResponseCount": {
+          "type": "number",
+          "default": 100,
+          "description": "The maximum number of entries that are returned in the search issues response. Default: 100"
+        }
+      }
+    },
+    "viewsWelcome": [
+      {
+        "view": "currentIssues",
+        "contents": "No results yet.\n\n Ensure you have the settings configured correctly. \n\n[Configure Settings](command:youtrack.configureSettings)"
+      },
+      {
+        "view": "searchIssues",
+        "contents": "No results yet.\n\n Ensure you have the settings configured correctly. \n\n[Configure Settings](command:youtrack.configureSettings)"
+      }
+    ]
+  },
+  "scripts": {
+    "package": "npx vsce package",
+    "publish": "npx vsce publish",
+    "vscode:prepublish": "npm run compile",
+    "compile": "npm-run-all compile:*",
+    "watch": "npm-run-all -p watch:*",
+    "compile:extension": "tsc -p ./",
+    "compile:views": "webpack --mode production",
+    "watch:extension": "tsc -watch -p ./",
+    "watch:views": "webpack --watch --mode development",
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "test": "npm run compile && node ./node_modules/vscode/bin/test",
+    "lint": "eslint . --ext .ts,.tsx"
+  },
+  "devDependencies": {
+    "@types/mkdirp": "^0.5.2",
+    "@types/mocha": "^2.2.42",
+    "@types/node": "^12.12.0",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "@types/react-syntax-highlighter": "^13.5.0",
+    "@types/rimraf": "^2.0.2",
+    "@types/vscode": "^1.52.0",
+    "@typescript-eslint/eslint-plugin": "^3.0.2",
+    "@typescript-eslint/parser": "^3.0.2",
+    "css-loader": "^3.0.0",
+    "eslint": "^7.1.0",
+    "npm-run-all": "^4.1.5",
+    "style-loader": "^0.23.1",
+    "ts-loader": "^6.0.4",
+    "tslint": "^5.12.1",
+    "typescript": "^4.0.2",
+    "webpack": "^4.35.2",
+    "webpack-cli": "^3.3.5"
+  },
+  "dependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/moment": "^2.13.0",
+    "axios": "^0.21.1",
+    "cross-fetch": "^3.1.4",
+    "lodash": "^4.17.20",
+    "moment": "^2.29.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-markdown": "^5.0.3",
+    "react-syntax-highlighter": "^15.4.3",
+    "remark-gfm": "^1.0.0",
+    "vscode-test": "^1.4.1"
+  }
+}
